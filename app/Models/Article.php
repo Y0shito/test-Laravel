@@ -14,5 +14,5 @@ class Article extends Model
         'created_at',
         'updated_at'
     ];
-
+    
 }
