@@ -26,10 +26,11 @@
     <br>
     <p>閲覧数：{{$item->view}}&nbsp;
       @if(isset($item->updated_at))
-        更新日：{{$item->updated_at->format('Y年m月d日') }}
+        更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
       @else
-        作成日：{{$item->created_at->format('Y年m月d日') }}
+        作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
       @endif
+    作成者：{{$item->author->name}}
     </p>
     <!-- <form action="edit" method="POST">
       @csrf

@@ -21,7 +21,7 @@ class ArticleController extends Controller
     // }
 
     public function show(Request $request){
-        $items = Article::where('open', 1)->get();
+        $items = Article::where('open', 1)->with('author')->get();
         return view('layouts.index', ['items' => $items]);
     }
 
