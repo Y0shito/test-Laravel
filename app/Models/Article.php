@@ -18,4 +18,8 @@ class Article extends Model
     public function author(){
         return $this->belongsTo('App\Models\User');
     }
+
+    public function bookmarks(){
+        return $this->hasMany('App\Models\Bookmark');
+    }
 }

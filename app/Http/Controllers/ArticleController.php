@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Article;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TestRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
