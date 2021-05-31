@@ -30,7 +30,8 @@
       @else
         作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
       @endif
-    作成者：{{$item->author->name}}
+    作成者：{{$item->author->name}}&nbsp;
+    ブックマーク数：{{$item->bookmarks->count()}}
     </p>
     <!-- <form action="edit" method="POST">
       @csrf
