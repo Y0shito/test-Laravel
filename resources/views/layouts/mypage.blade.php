@@ -51,15 +51,38 @@
 
     <p>{{$item->body}}</p>
     <br>
-    <p>閲覧数：{{$item->view}}&nbsp;
+    <p>
+      閲覧数：{{$item->view}}&nbsp;
+      @if(isset($item->updated_at))
+        更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
+      @else
         作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
-        @if(isset($item->updated_at))
-          更新日：{{$item->updated_at->format('Y年m月d日') }}
-        @endif
+      @endif
+      ブックマーク数：{{$item->bookmarks->count()}}
     </p>
 
     <br>
     <hr color="blue">
+    <br>
+  @endforeach
+
+  <h3>ブックマークした記事：{{count($bookmarks)}}件</h3>
+  <br>
+  @foreach ($bookmarks as $bookmark)
+    <h3><a href="article/id={{$bookmark->articles->id}}">{{$bookmark->articles->title}}</a></h3>
+    <p>{{$bookmark->articles->body}}</p>
+    <br>
+    <p>
+      閲覧数：{{$bookmark->articles->view}}&nbsp;
+      @if(isset($bookmark->articles->updated_at))
+        更新日：{{$bookmark->articles->updated_at->format('Y年m月d日') }}&nbsp;
+      @else
+        作成日：{{$bookmark->articles->created_at->format('Y年m月d日') }}&nbsp;
+      @endif
+      作成者：{{$bookmark->articles->author->name}}&nbsp;
+    </p>
+    <br>
+    <hr color="green">
     <br>
   @endforeach
 @endsection
