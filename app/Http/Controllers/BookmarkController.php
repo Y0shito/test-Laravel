@@ -22,7 +22,7 @@ class BookmarkController extends Controller
   }
 
   public function bmRemove(Request $request){
-    $bookmark = Bookmark::find($request->id);
+    $bookmark = Bookmark::where('article_id', $request->id)->where('user_id', Auth::id())->first();
     $bookmark->delete();
 
     return redirect('/index');

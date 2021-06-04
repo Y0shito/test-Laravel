@@ -32,6 +32,8 @@
                         <input type="hidden" name="id" value="{{$item->id}}">
                         <input type="submit" value="ブックマーク({{$item->bookmarks->count()}})">
                     </form>
+                @else
+                    ブックマーク({{$item->bookmarks->count()}})
                 @endif
             </div>
         </div>

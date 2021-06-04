@@ -31,7 +31,7 @@ class ArticleController extends Controller
         $bookmarks = Bookmark::where('user_id', Auth::user()->id)->get();
         return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks]);
     }
-    
+
     public function article($id){
         $article = Article::find($id);
         $article->increment('view');
@@ -102,7 +102,7 @@ class ArticleController extends Controller
         $article = Article::find($request->id);
         $article->open = 0;
         $article->save();
-        
+
         return redirect('/mypage');
     }
 

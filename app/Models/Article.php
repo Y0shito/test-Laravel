@@ -14,7 +14,7 @@ class Article extends Model
         'created_at',
         'updated_at'
     ];
-    
+
     public function author(){
         return $this->belongsTo('App\Models\User');
     }
