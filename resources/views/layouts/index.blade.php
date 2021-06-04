@@ -26,12 +26,23 @@
         <div class="line">
             <h3><a href="article/id={{$item->id}}">{{$item->title}}</a></h3>
             <div class="button">
-                @if (Auth::check())
-                    <form action="bmAdd" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$item->id}}">
-                        <input type="submit" value="ブックマーク({{$item->bookmarks->count()}})">
-                    </form>
+
+                {{-- ログイン中、かつ自分以外が書いた記事ならtlue --}}
+                @if (Auth::check() AND !($item->author_id == Auth::user()->id))
+                    @if ($item->bookmarks()->where('user_id',Auth::user()->id)->exists())
+                    {{-- 記事からBookmark引っ張り、その中に自分のidあれば「外す」ボタン --}}
+                        <form action="bmRemove" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$item->id}}">
+                            <input type="submit" value="ブックマークから外す({{$item->bookmarks->count()}})">
+                        </form>
+                    @else
+                        <form action="bmAdd" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$item->id}}">
+                            <input type="submit" value="ブックマーク({{$item->bookmarks->count()}})">
+                        </form>
+                    @endif
                 @else
                     ブックマーク({{$item->bookmarks->count()}})
                 @endif

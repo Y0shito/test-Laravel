@@ -8,7 +8,13 @@
 @section('title','マイページ')
 
 @section('content')
-  <h3>マイページ</h3>
+    <br>
+  <h3>{{Auth::user()->name}}のマイページ</h3>
+  <p>
+      総記事数：{{count(Auth::user()->articles)}}&nbsp;
+      総閲覧数：{{Auth::user()->articles()->sum('view')}}
+  </p>
+
   <form action="mypage" method="post">
     @csrf
     <input type="submit" value="ログアウト">

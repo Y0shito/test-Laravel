@@ -18,13 +18,13 @@ class BookmarkController extends Controller
     $bookmark->updated_at = '0000-00-00 00:00:00';
     $bookmark->save();
 
-    return redirect('/index');
+    return back();
   }
 
   public function bmRemove(Request $request){
     $bookmark = Bookmark::where('article_id', $request->id)->where('user_id', Auth::id())->first();
     $bookmark->delete();
 
-    return redirect('/index');
+    return back();
 }
 }
