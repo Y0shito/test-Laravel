@@ -13,7 +13,7 @@
             <a class="btn btn-outline-secondary" href="/index?sort=title">タイトル順</a>
             <a class="btn btn-outline-secondary" href="/index?sort=view">閲覧数順</a>
             <a class="btn btn-outline-secondary" href="/index?sort=created_at">投稿日順</a>
-            {{-- 現時点ですべてasc->ボタンによって   descにもしたい --}}
+            {{-- 現時点ですべてasc->ボタンによってdescにもしたい --}}
         </div>
     </div>
 </div>
