@@ -1,36 +1,40 @@
-<style>
-  .title {width:100%; font-size:15px; padding:5px; margin:0 0 10px 0; border:solid 1px #696969; border-radius:7px}
-  textarea {width:100%; height:300px; font-size:15px; padding:5px; font-family:"ヒラギノ角ゴ ProN"; margin:0 0 10px 0; border:solid 1px #696969; border-radius:7px; resize:vertical;}
-  .update, .draft {cursor:pointer; display:block; width:300px; padding:10px; margin:10px auto; text-align:center; border: 1px solid #999; border-radius:7px; box-sizing: border-box; line-height: 1.5;}
-    .update {background:#AFFAF8;}
-    .draft {background:#f2f2f2;}
-</style>
-
 @extends('layouts.template')
 
 @section('title','記事更新')
 
 @section('content')
-  @if(count($errors) > 0)
-    <div class="errors">
-        @foreach($errors->all() as $error)
-          <p>{{$error}}</p>
-        @endforeach
-    </div>
-  @endif
-  <br>
-  <form action="update" method="post">
+@if(count($errors) > 0)
+<div class="text-danger">
+    @foreach($errors->all() as $error)
+    <p>{{$error}}</p>
+    @endforeach
+</div>
+@endif
+
+<form action="update" method="post">
     @csrf
     <input type="hidden" name="id" value="{{$form->id}}">
 
-    タイトル<input type="text" class="title" name="title" value="{{$form->title}}">
-      
-    内容<textarea name="body">{{$form->body}}</textarea>
+    <div class="form-group">
+        タイトル
+        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください"
+            value="{{$form->title}}">
+    </div>
 
-    <input type="hidden" name="proc" value="update">
-    <input type="submit" class="update" class="update" value="変更して公開">
+    <div class="form-group">
+        内容
+        <textarea class="form-control" name="body" rows="15"
+            placeholder="30文字以上、1000文字以下で入力してください">{{$form->body}}</textarea>
+    </div>
 
-    <input type="hidden" name="proc" value="draft">
-    <input type="submit" class="draft" value="下書きへ保存">
-  </form>
+    <div class="d-flex justify-content-center mb-3">
+        <div class="button">
+            <input class="btn btn-secondary" type="submit" class="draft" value="下書きへ保存">
+            <input type="hidden" name="proc" value="draft">
+
+            <input type="submit" class="btn btn-primary" class="update" class="update" value="変更して公開">
+            <input type="hidden" name="proc" value="update">
+        </div>
+    </div>
+</form>
 @endsection

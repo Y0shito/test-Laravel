@@ -1,47 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="UTF-8">
-  <title>@yield('title')</title>
-  <style>
-    * {margin:0; padding:0;}
-    body {font-family:"ヒラギノ角ゴ ProN";}
-    .content {padding:0px 80px;}
-    .errors {color:red;}
-    header {display:flex; justify-content:space-between; color:white; align-items:center;  background-color:black; width:100%; height:60px;}
-      header p {font-size:20pt; padding:0 0 0 80px;}
-      header a {color:white; text-decoration:none;}
-      header ul {display:flex; list-style:none; padding:0 80px 0 0;}
-      header li {padding:0 0 0 20px;}
-      h3 {font-size:20pt;}
-    footer {font-size:10pt; color:white; text-align:center; background-color:black; width:100%; height:30px;}
-  </style>
+    <meta charset="UTF-8">
+    <title>@yield('title')</title>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <p><a href="/index">BBS</a></p>
-    <ul>
-      <li>
-        <form action="result" method="post">
-          @csrf
-          <input type="text" placeholder="記事を検索" name="search">
-          <input type="submit" value="検索">
-        </form>
-      </li>
-    @if(Auth::check())
-      <li><a href="/create">記事作成</a></li>
-      <li><a href="/mypage">マイページ</a></li>
-     @else
-      <li><a href="/auth">ログイン</a></li>
-      <li><a href="/register">登録</a></li>
-    @endif
-    </ul>
-  </header>
-  <div class="content">
-    @yield('content')
-  </div>
-  <footer>
-    <p>Copyright 2021 Y.<p>
-  </footer>
+
+<body style="padding-top:70px">
+    <div class="navbar fixed-top navbar-expand navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/index">BBS</a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav">
+                    @if(Auth::check())
+                    <a class="nav-item nav-link" href="/create">記事作成</a>
+                    <a class="nav-item nav-link" href="/mypage">マイページ</a>
+                    @else
+                    <a class="nav-item nav-link" href="/auth">ログイン</a>
+                    <a class="nav-item nav-link" href="/register">登録</a>
+                    @endif
+                </div>
+            </div>
+
+            <form class="form-inline" action="result" method="post">
+                @csrf
+                <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" aria-label="Search" name="search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">検索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        @yield('content')
+    </div>
+
+    <footer class="position-sticky py-4 bg-primary text-light">
+        <div class="container text-center">
+            <p>Copyright 2021 Y.</p>
+        </div>
+    </footer>
 </body>
+
 </html>
