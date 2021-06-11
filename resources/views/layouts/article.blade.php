@@ -41,5 +41,5 @@
     作成者：{{$article->author->name}}
 </p>
 <br>
-<p>{{$article->body}}</p>
+<p>{!! nl2br(e($article->body)) !!}</p>
 @endsection

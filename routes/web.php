@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\TestMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {return view('welcome'); });
 
@@ -21,9 +22,10 @@ Route::post('bmRemove', 'App\Http\Controllers\BookmarkController@bmRemove');
 Route::get('article/id={id}', 'App\Http\Controllers\ArticleController@article');
 
 Route::get('create', 'App\Http\Controllers\TestController@create');
-Route::post('create', 'App\Http\Controllers\ArticleController@addOrDraft');
+Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
 
-Route::get('preview', 'App\Http\Controllers\TestController@preview');
+Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview');
+Route::post('preview', 'App\Http\Controllers\ArticleController@addOrDraft');
 
 Route::get('result', 'App\Http\Controllers\TestController@result');
 Route::post('result', 'App\Http\Controllers\ArticleController@search');

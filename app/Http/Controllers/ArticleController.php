@@ -42,28 +42,45 @@ class ArticleController extends Controller
         return view('layouts.article', ['article' => $article]);
     }
 
-    public function addOrDraft(TestRequest $request)
+    public function toPreview(TestRequest $request)
+    {
+        $request->session()->put('title', $request->title);
+        $request->session()->put('body', $request->body);
+
+        return redirect('/preview');
+    }
+
+    public function fromPreview()
+    {
+        return view('layouts.preview');
+    }
+
+    public function addOrDraft(Request $request)
     {
         if ($request->proc == 'add') {
             $article = new Article;
-            $article->title = $request->title;
-            $article->body = $request->body;
+            $article->title = $request->session()->get('title');
+            $article->body = $request->session()->get('body');
             $article->view = 0;
             $article->author_id = Auth::user()->id;
             $article->open = 1;
             $article->created_at = Carbon::now('Asia/Tokyo');
             $article->save();
 
+            $request->session()->forget(['title', 'body']);
+
             return redirect('/mypage');
         } else if ($request->proc == 'draft'){
             $article = new Article;
-            $article->title = $request->title;
-            $article->body = $request->body;
+            $article->title = $request->session()->get('title');
+            $article->body = $request->session()->get('body');
             $article->view = 0;
             $article->author_id = Auth::user()->id;
             $article->open = 0;
             $article->created_at = Carbon::now('Asia/Tokyo');
             $article->save();
+
+            $request->session()->forget(['title', 'body']);
 
             return redirect('/mypage');
         }
