@@ -23,6 +23,8 @@ Route::get('article/id={id}', 'App\Http\Controllers\ArticleController@article');
 Route::get('create', 'App\Http\Controllers\TestController@create');
 Route::post('create', 'App\Http\Controllers\ArticleController@addOrDraft');
 
+Route::get('preview', 'App\Http\Controllers\TestController@preview');
+
 Route::get('result', 'App\Http\Controllers\TestController@result');
 Route::post('result', 'App\Http\Controllers\ArticleController@search');
 
