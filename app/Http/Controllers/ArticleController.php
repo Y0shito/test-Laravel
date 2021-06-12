@@ -11,16 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-    // public function show(Request $request){
-    //     $sort = $request->sort;
-    //     $items = Article::orderBy($sort, 'asc')->simplePaginate(7);
-    //     $param = [
-    //         'items' => $items,
-    //         'sort' => $sort
-    //     ];
-    //     return view('layouts.index', $param);
-    // }
-
     public function show(Request $request)
     {
         $sort = $request->sort;
@@ -44,8 +34,14 @@ class ArticleController extends Controller
 
     public function toPreview(TestRequest $request)
     {
-        $request->session()->put('title', $request->title);
-        $request->session()->put('body', $request->body);
+        // 文字列の前後にある空白、改行等の削除
+        $pattern = '/\A[\p{Cc}\p{Cf}\p{Z}]++|[\p{Cc}\p{Cf}\p{Z}]++\z/u';
+
+        $title = preg_replace($pattern, '', $request->title);
+        $body = preg_replace($pattern, '', $request->body);
+
+        $request->session()->put('title', $title);
+        $request->session()->put('body', $body);
 
         return redirect('/preview');
     }
