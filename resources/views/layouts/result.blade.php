@@ -1,3 +1,7 @@
+<?php
+
+// dd($x)
+?>
 @extends('layouts.template')
 
 @section('title','検索結果')
@@ -17,6 +21,11 @@
     </div> --}}
 </div>
 {{-- ここから検索結果 --}}
+@if (count($items) == 0)
+<div class="alert alert-warning">
+    記事が見つかりませんでした
+</div>
+@endif
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">

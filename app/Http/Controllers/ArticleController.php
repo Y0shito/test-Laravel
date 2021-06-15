@@ -66,7 +66,7 @@ class ArticleController extends Controller
             $request->session()->forget(['title', 'body']);
 
             return redirect('/mypage');
-        } else if ($request->proc == 'draft'){
+        } else if ($request->proc == 'draft') {
             $article = new Article;
             $article->title = $request->session()->get('title');
             $article->body = $request->session()->get('body');
@@ -99,7 +99,7 @@ class ArticleController extends Controller
             $article->save();
 
             return redirect('/mypage');
-        } else if ($request->proc == 'draft'){
+        } else if ($request->proc == 'draft') {
             $article = Article::find($request->id);
             $article->title = $request->title;
             $article->body = $request->body;
@@ -141,7 +141,20 @@ class ArticleController extends Controller
     public function search(Request $request)
     {
         $sort = $request->sort;
-        $article = Article::where('open', 1)->where('title', 'like', "%$request->search%")->orderBy($sort, 'asc')->paginate(7);
+        // あらゆる空白を認識し分割後、配列へ
+        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 2, PREG_SPLIT_NO_EMPTY);
+
+
+        if (count($words) == 2) {
+            // 配列が2つあればAND検索
+            $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%")->orderBy($sort, 'asc')->paginate(7);
+        } else if (count($words) == 1) {
+            // 通常検索
+            $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->orderBy($sort, 'asc')->paginate(7);
+        } else {
+            // 検索用語が無い場合
+            return back();
+        }
         return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
     }
 }
