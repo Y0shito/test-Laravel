@@ -141,20 +141,31 @@ class ArticleController extends Controller
     public function search(Request $request)
     {
         $sort = $request->sort;
-        // あらゆる空白を認識し分割後、配列へ
+        // あらゆる空白を認識し分割
         $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 2, PREG_SPLIT_NO_EMPTY);
+        // -の付く単語を検索
+        $index = preg_grep('/-/', $words);
 
-
-        if (count($words) == 2) {
-            // 配列が2つあればAND検索
-            $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%")->orderBy($sort, 'asc')->paginate(7);
-        } else if (count($words) == 1) {
-            // 通常検索
-            $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->orderBy($sort, 'asc')->paginate(7);
+        if (empty($index)) {
+            // -単語無ければ通常/AND検索
+            if (count($words) == 2) {
+                // 配列が2つあればAND検索
+                $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%")->orderBy($sort, 'asc')->paginate(7);
+            } else if (count($words) == 1) {
+                // 通常検索
+                $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->orderBy($sort, 'asc')->paginate(7);
+            } else {
+                // 検索用語が無い場合
+                return back();
+            }
+            return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
         } else {
-            // 検索用語が無い場合
-            return back();
+            // -単語あれば除外検索
+            $ex = implode(preg_replace('/-/', '', $index));
+            $word = implode(preg_grep('/-/', $words, PREG_GREP_INVERT));
+
+            $article = Article::where('open', 1)->where('title', 'like', "%$word%")->where('title', 'not like', "%$ex%")->orderBy($sort, 'asc')->paginate(7);
+            return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
         }
-        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
     }
 }

@@ -1,7 +1,3 @@
-<?php
-
-// dd($x)
-?>
 @extends('layouts.template')
 
 @section('title','検索結果')
