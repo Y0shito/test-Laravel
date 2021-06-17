@@ -150,22 +150,24 @@ class ArticleController extends Controller
             // -単語無ければ通常/AND検索
             if (count($words) == 2) {
                 // 配列が2つあればAND検索
-                $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%")->orderBy($sort, 'asc')->paginate(7);
+                $query = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%");
             } else if (count($words) == 1) {
                 // 通常検索
-                $article = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->orderBy($sort, 'asc')->paginate(7);
+                $query = Article::where('open', 1)->where('title', 'like', "%$words[0]%");
             } else {
                 // 検索用語が無い場合
                 return back();
             }
-            return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
         } else {
-            // -単語あれば除外検索
+            // 除外語句の整形
             $ex = implode(preg_replace('/-/', '', $index));
+            // 通常語句の格納
             $word = implode(preg_grep('/-/', $words, PREG_GREP_INVERT));
 
-            $article = Article::where('open', 1)->where('title', 'like', "%$word%")->where('title', 'not like', "%$ex%")->orderBy($sort, 'asc')->paginate(7);
-            return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
+            $query = Article::where('open', 1)->where('title', 'like', "%$word%")->where('title', 'not like', "%$ex%");
         }
+
+        $article = $query->orderBy($sort, 'asc')->paginate(7);
+        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
     }
 }
