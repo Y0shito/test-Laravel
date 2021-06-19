@@ -60,6 +60,7 @@
             @else
             作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
             @endif
+            カテゴリ：{{$item->category}}&nbsp;
             作成者：{{$item->author->name}}
         </p>
     </div>

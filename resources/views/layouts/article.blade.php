@@ -37,7 +37,8 @@
     @if(isset($article->updated_at))
     更新日：{{$article->updated_at->format('Y年m月d日')}}&nbsp;
     @endif
-    作成日：{{$article->created_at->format('Y年m月d日')}}
+    作成日：{{$article->created_at->format('Y年m月d日')}}&nbsp;
+    カテゴリ：{{$article->category}}&nbsp;
     作成者：{{$article->author->name}}
 </p>
 <br>

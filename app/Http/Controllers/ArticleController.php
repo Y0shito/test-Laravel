@@ -61,6 +61,7 @@ class ArticleController extends Controller
             $article->author_id = Auth::user()->id;
             $article->open = 1;
             $article->created_at = Carbon::now('Asia/Tokyo');
+            $article->category = $request->category;
             $article->save();
 
             $request->session()->forget(['title', 'body']);

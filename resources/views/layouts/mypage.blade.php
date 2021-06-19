@@ -71,7 +71,8 @@
             @else
             作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
             @endif
-            ブックマーク数：{{$item->bookmarks->count()}}
+            ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
+            カテゴリ：{{$item->category}}
         </p>
     </div>
 </div>
@@ -99,6 +100,7 @@
             作成日：{{$bookmark->articles->created_at->format('Y年m月d日') }}&nbsp;
             @endif
             作成者：{{$bookmark->articles->author->name}}&nbsp;
+            カテゴリ：{{$bookmark->articles->category}}
         </p>
     </div>
 </div>
