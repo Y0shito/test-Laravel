@@ -29,7 +29,7 @@
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">
-        <h3><a href="article/id={{$item->id}}">{{$item->title}}</a></h3>
+        <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
         <div class="ml-auto d-inline-flex">
             <form action="edit" method="POST">
                 @csrf
@@ -78,6 +78,10 @@
 </div>
 @endforeach
 
+<div class="d-flex justify-content-center">
+    {{$items->links()}}
+</div>
+
 {{-- ここからブックマークした記事 --}}
 <h3>ブックマークした記事：{{count($bookmarks)}}件</h3>
 
@@ -105,5 +109,9 @@
     </div>
 </div>
 @endforeach
+
+<div class="d-flex justify-content-center">
+    {{$bookmarks->links()}}
+</div>
 
 @endsection

@@ -20,8 +20,8 @@ class ArticleController extends Controller
 
     public function myArticles(Request $request)
     {
-        $items = Article::where('author_id', Auth::user()->id)->get();
-        $bookmarks = Bookmark::where('user_id', Auth::user()->id)->get();
+        $items = Article::where('author_id', Auth::user()->id)->paginate(5);
+        $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(5);
         return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks]);
     }
 
@@ -142,7 +142,7 @@ class ArticleController extends Controller
     public function search(Request $request)
     {
         $query = Article::where('open', 1);
-        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 3, PREG_SPLIT_NO_EMPTY); //array|[]
+        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 3, PREG_SPLIT_NO_EMPTY);
 
         if (!empty($words)) {
             foreach ($words as $word) {
