@@ -141,34 +141,23 @@ class ArticleController extends Controller
 
     public function search(Request $request)
     {
-        $sort = $request->sort;
-        // あらゆる空白を認識し分割
-        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 2, PREG_SPLIT_NO_EMPTY);
-        // -の付く単語を検索
-        $index = preg_grep('/-/', $words);
+        $query = Article::where('open', 1);
+        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 3, PREG_SPLIT_NO_EMPTY); //array|[]
 
-        if (empty($index)) {
-            // -単語無ければ通常/AND検索
-            if (count($words) == 2) {
-                // 配列が2つあればAND検索
-                $query = Article::where('open', 1)->where('title', 'like', "%$words[0]%")->where('title', 'like', "%$words[1]%");
-            } else if (count($words) == 1) {
-                // 通常検索
-                $query = Article::where('open', 1)->where('title', 'like', "%$words[0]%");
-            } else {
-                // 検索用語が無い場合
-                return back();
+        if (!empty($words)) {
+            foreach ($words as $word) {
+                if (preg_match('/-/', $word) == 0) {
+                    $query->where('title', 'like', "%$word%");
+                } else if (preg_match('/-/', $word) == 1) {
+                    $query->where('title', 'not like', '%' . preg_replace('/-/', '', $word) . '%');
+                }
             }
         } else {
-            // 除外語句の整形
-            $ex = implode(preg_replace('/-/', '', $index));
-            // 通常語句の格納
-            $word = implode(preg_grep('/-/', $words, PREG_GREP_INVERT));
-
-            $query = Article::where('open', 1)->where('title', 'like', "%$word%")->where('title', 'not like', "%$ex%");
+            return redirect('/index');
         }
 
-        $article = $query->orderBy($sort, 'asc')->paginate(7);
+        $sort = $request->sort;
+        $article = $query->orderBy($sort, 'asc')->paginate(10);
         return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
     }
 }
