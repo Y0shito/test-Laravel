@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Requests\TestRequest;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,12 @@ class TestController extends Controller
     public function mypage(){
         $user = Auth::user();
         return view('layouts.mypage', ['user' => $user]);
+    }
+
+    public function userpage($userId){
+        $articles = Article::where('open', 1)->where('author_id', $userId)->get();
+        $user = User::find($userId);
+        return view('layouts.userpage', compact('articles','user'));
     }
 
     public function create(){
