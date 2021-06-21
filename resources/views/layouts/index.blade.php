@@ -22,7 +22,7 @@
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">
-        <h3 class="card-title"><a href="article/id={{$item->id}}">{{$item->title}}</a></h3>
+        <h3 class="card-title"><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
         {{-- ログイン中、かつ自分以外が書いた記事ならtlue --}}
         <div class="ml-auto">
             @if (Auth::check() AND !($item->author_id == Auth::user()->id))
@@ -61,7 +61,7 @@
             作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
             @endif
             カテゴリ：{{$item->category}}&nbsp;
-            作成者：{{$item->author->name}}
+            作成者：<a href="user/{{$item->author->id}}">{{$item->author->name}}</a>
         </p>
     </div>
 </div>
