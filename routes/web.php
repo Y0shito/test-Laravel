@@ -13,13 +13,15 @@ Route::get('mypage', 'App\Http\Controllers\TestController@mypage')->middleware('
 Route::post('mypage', 'App\Http\Controllers\TestController@logout')->middleware('auth');
 Route::get('mypage', 'App\Http\Controllers\ArticleController@myArticles');
 
+Route::get('user/{user}', 'App\Http\Controllers\TestController@userpage');
+
 Route::get('index', 'App\Http\Controllers\TestController@index');
 Route::get('index', 'App\Http\Controllers\ArticleController@show');
 
 Route::post('bmAdd', 'App\Http\Controllers\BookmarkController@bmAdd');
 Route::post('bmRemove', 'App\Http\Controllers\BookmarkController@bmRemove');
 
-Route::get('article/id={id}', 'App\Http\Controllers\ArticleController@article');
+Route::get('article/id/{id}', 'App\Http\Controllers\ArticleController@article');
 
 Route::get('create', 'App\Http\Controllers\TestController@create');
 Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
