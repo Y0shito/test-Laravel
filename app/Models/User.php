@@ -41,7 +41,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function articles(){
-        return $this->hasMany('App\Models\Article','author_id');
+    public function articles()
+    {
+        return $this->hasMany('App\Models\Article', 'author_id');
+    }
+
+    public function getFollows()
+    {
+        return $this->belongsToMany('User', 'follow', 'user_id', 'follow_id');
+    }
+
+    public function getFollowers()
+    {
+        return $this->belongsToMany('User', 'follow', 'follow_id', 'user_id');
     }
 }
