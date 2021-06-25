@@ -17,8 +17,8 @@
         <li class="list-group-item"></li>
         <li class="list-group-item">
             総記事数：{{count(Auth::user()->articles)}}&nbsp;
-            総閲覧数：{{Auth::user()->articles()->sum('view')}}
-            {{$message}}
+            総閲覧数：{{Auth::user()->articles()->sum('view')}}&nbsp;
+            フォロワー数：{{$getFollowers}}
         </li>
     </ul>
 </div>
@@ -114,5 +114,14 @@
 <div class="d-flex justify-content-center">
     {{$bookmarks->links()}}
 </div>
+
+
+{{-- ここからブックマークした記事 --}}
+<h3>フォローしている人：{{count($getFollows)}}件</h3>
+<ul class="list-gloup">
+    @foreach ($getFollows as $item)
+    <li class="list-group-item">{{$item->name}}</li>
+    @endforeach
+</ul>
 
 @endsection
