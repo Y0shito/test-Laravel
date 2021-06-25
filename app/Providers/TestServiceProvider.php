@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Composers\ViewComposer;
 
 class TestServiceProvider extends ServiceProvider
 {
@@ -24,8 +25,6 @@ class TestServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('layouts.mypage', function ($view) {
-            $view->with('message', 'message');
-        });
+        View::composer('layouts.mypage', ViewComposer::class);
     }
 }

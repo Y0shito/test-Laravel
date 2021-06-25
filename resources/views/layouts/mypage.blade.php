@@ -18,6 +18,7 @@
         <li class="list-group-item">
             総記事数：{{count(Auth::user()->articles)}}&nbsp;
             総閲覧数：{{Auth::user()->articles()->sum('view')}}
+            {{$message}}
         </li>
     </ul>
 </div>
