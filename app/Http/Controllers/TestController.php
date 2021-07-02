@@ -55,13 +55,13 @@ class TestController extends Controller
     public function follow(Request $request)
     {
         User::find(Auth::id())->getFollows()->attach($request->id);
-        return redirect('/index');
+        return back();
     }
 
     public function unFollow(Request $request)
     {
         User::find(Auth::id())->getFollows()->detach($request->id);
-        return redirect('/index');
+        return back();
     }
 
     public function create()

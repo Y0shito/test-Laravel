@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\TestMiddleware;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {return view('welcome'); });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('auth', 'App\Http\Controllers\TestController@auth');
 Route::post('auth', 'App\Http\Controllers\TestController@postAuth');
@@ -14,6 +16,12 @@ Route::post('mypage', 'App\Http\Controllers\TestController@logout')->middleware(
 Route::get('mypage', 'App\Http\Controllers\ArticleController@myArticles');
 
 Route::get('user/{user}', 'App\Http\Controllers\TestController@userpage');
+
+Route::post('follow', 'App\Http\Controllers\TestController@follow');
+// Route::get('follow', function(){
+//     return '<html><body>page</body></html>';
+// });
+Route::post('unfollow', 'App\Http\Controllers\TestController@unFollow');
 
 Route::get('index', 'App\Http\Controllers\TestController@index');
 Route::get('index', 'App\Http\Controllers\ArticleController@show');

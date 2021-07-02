@@ -17,16 +17,16 @@ dump(Auth::id());
             @if (Auth::check() AND !($user->id == Auth::id()))
                 {{-- 相手ユーザーIDと、自身のfollowテーブル内に相手のユーザーIDが一致するか --}}
                 @if ($user->getFollowers()->where('user_id', Auth::id())->exists())
-                    <form action="/unFollow" method="POST">
+                    <form action="/unfollow" method="POST">
                         @csrf
                         <input class="btn btn-danger btn-sm" type="submit" value="フォローを外す">
                         <input type="hidden" name="id" value="{{$user->id}}">
                     </form>
                 @else
-                    <form action="/" method="POST">
+                    <form action="/follow" method="POST">
                         @csrf
                         <input class="btn btn-outline-primary btn-sm" type="submit" value="フォローする">
-                        {{-- <input type="hidden" name="id" value="{{$user->id}}"> --}}
+                        <input type="hidden" name="id" value="{{$user->id}}">
                     </form>
                 @endif
             @else
