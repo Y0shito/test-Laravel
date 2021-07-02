@@ -10,56 +10,77 @@ use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('layouts.index');
     }
 
-    public function auth(){
+    public function auth()
+    {
         return view('layouts.auth');
     }
 
-    public function postAuth(Request $request){
+    public function postAuth(Request $request)
+    {
         $email = $request->email;
         $password = $request->password;
 
-        if(Auth::attempt(['email' => $email, 'password' => $password])){
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
             return redirect('/index');
-        }else{
+        } else {
             $error = 'アドレスまたはパスワードが違います';
             return view('layouts.auth', ['error' => $error]);
         }
     }
 
-    public function logout(){
+    public function logout()
+    {
         Auth::logout();
         return redirect('/index');
     }
 
-    public function mypage(){
+    public function mypage()
+    {
         $user = Auth::user();
         return view('layouts.mypage', ['user' => $user]);
     }
 
-    public function userpage($userId){
+    public function userpage($userId)
+    {
         $articles = Article::where('open', 1)->where('author_id', $userId)->get();
         $user = User::find($userId);
-        return view('layouts.userpage', compact('articles','user'));
+        return view('layouts.userpage', compact('articles', 'user'));
     }
 
-    public function create(){
+    public function follow(Request $request)
+    {
+        User::find(Auth::id())->getFollows()->attach($request->id);
+        return redirect('/index');
+    }
+
+    public function unFollow(Request $request)
+    {
+        User::find(Auth::id())->getFollows()->detach($request->id);
+        return redirect('/index');
+    }
+
+    public function create()
+    {
         return view('layouts.create');
     }
 
-    public function preview(){
+    public function preview()
+    {
         return view('layouts.preview');
     }
 
-    public function article(){
+    public function article()
+    {
         return view('layouts.article');
     }
 
-    public function result(){
+    public function result()
+    {
         return view('layouts.result');
     }
-
 }

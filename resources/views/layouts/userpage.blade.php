@@ -1,3 +1,9 @@
+<?php
+dump($user->getFollowers()->where('follow_id', $user->id)->exists());
+dump($user->id);
+dump(Auth::id());
+?>
+
 @extends('layouts.template')
 
 @section('title','ユーザーページ')
@@ -5,7 +11,28 @@
 @section('content')
 <div class="card">
     <div class="card-header d-inline-flex pb-0">
-        <h3>{{($user->name)}}のページ</h3>
+        <h3 class="card-title">{{($user->name)}}のページ</h3>
+        <div class="ml-auto">
+            {{-- ログインかつ自分自身でないか --}}
+            @if (Auth::check() AND !($user->id == Auth::id()))
+                {{-- 相手ユーザーIDと、自身のfollowテーブル内に相手のユーザーIDが一致するか --}}
+                @if ($user->getFollowers()->where('user_id', Auth::id())->exists())
+                    <form action="/unFollow" method="POST">
+                        @csrf
+                        <input class="btn btn-danger btn-sm" type="submit" value="フォローを外す">
+                        <input type="hidden" name="id" value="{{$user->id}}">
+                    </form>
+                @else
+                    <form action="/" method="POST">
+                        @csrf
+                        <input class="btn btn-outline-primary btn-sm" type="submit" value="フォローする">
+                        {{-- <input type="hidden" name="id" value="{{$user->id}}"> --}}
+                    </form>
+                @endif
+            @else
+                <input class="btn btn-secondary btn-sm" type="submit" value="フォローする" disabled>
+            @endif
+        </div>
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item"></li>
