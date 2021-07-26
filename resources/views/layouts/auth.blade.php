@@ -16,4 +16,5 @@
         <input type="submit" class="btn btn-primary" value="ログイン">
     </div>
 </form>
+<p><a href="/login/twitter">twitterでログイン</a></p>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -83,4 +84,43 @@ class TestController extends Controller
     {
         return view('layouts.result');
     }
+
+    //ここからTwitter認証
+    public function getAuth()
+    {
+        return Socialite::driver('twitter')->redirect();
+    }
+
+    public function callback()
+    {
+        $user = Socialite::driver('twitter')->user();
+        dd($user);
+    }
+
+    // public function callback()
+    // {
+    //     $getUser = Socialite::driver('Twitter')->user();
+
+    //     // 既に存在するユーザーかを確認
+    //     $checkUser = User::where('remember_token', $getUser->token)->first();
+
+    //     if ($checkUser) {
+    //         // 既存のユーザーはログインしてトップページへ
+    //         Auth::login($getUser->user, true);
+    //         return redirect('/index');
+    //     }
+
+    //     // 新しいユーザーを作成
+    //     $user = new User();
+    //     $user->name = $getUser->name;
+    //     $user->remember_token = $getUser->token;
+    //     $user->created_at = now();
+    //     $user->updated_at = now();
+    //     $user->email = 'no value';
+    //     $user->password = 'no value';
+    //     $user->save();
+
+    //     Auth::login($user, true);
+    //     return redirect('/index');
+    // }
 }

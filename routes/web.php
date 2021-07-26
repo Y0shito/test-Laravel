@@ -53,3 +53,7 @@ Route::post('delete', 'App\Http\Controllers\ArticleController@delete');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//Twitter
+Route::get('login/twitter','App\Http\Controllers\TestController@getAuth');
+Route::get('login/twitter/callback', 'App\Http\Controllers\TestController@callback');

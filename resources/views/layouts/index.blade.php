@@ -1,3 +1,7 @@
+<?php
+// dd(user('id'));
+?>
+
 @extends('layouts.template')
 
 @section('title','TOP')
