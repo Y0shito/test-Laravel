@@ -118,7 +118,7 @@ class TestController extends Controller
 
         if ($check) {
             // 既存のユーザーはログインしてトップページへ
-            Auth::guard('admin')->login($getUser);
+            Auth::login($getUser);
             dd($getUser);
             return redirect('/index');
         } else {
