@@ -91,44 +91,15 @@ class TestController extends Controller
         return Socialite::driver('twitter')->redirect();
     }
 
-    // public function callback()
-    // {
-    //     $getUser = Socialite::driver('twitter')->user();
-
-    //     // 新しいユーザーを作成
-    //     $user = new User();
-    //     $user->name = $getUser->name;
-    //     $user->remember_token = $getUser->token;
-    //     $user->created_at = now('Asia/Tokyo');
-    //     $user->updated_at = now('Asia/Tokyo');
-    //     $user->save();
-
-    //     dd($getUser);
-    // }
-
     public function callback()
     {
-        //新規登録からのログインは問題なし、ただしログインが出来ない
-        //ログイン通すにはガードを弄る
-
-        $getUser = Socialite::driver('Twitter')->user();
-
-        // 既に存在するユーザーかを確認
-        $check = User::where('name', $getUser->name)->exists();
-
-        if ($check) {
-            // 既存のユーザーはログインしてトップページへ
-            Auth::login($getUser);
-            dd($getUser);
-            return redirect('/index');
-        } else {
-            // 新しいユーザーを作成
-            $user = new User();
-            $user->name = $getUser->name;
-            $user->save();
-
-            Auth::login($user, true);
-            return redirect('/index');
-        }
+        $user = Socialite::driver('Twitter')->user();
+        Auth::login(
+            User::firstOrCreate([
+                'name' => $user->getName(),
+            ]),
+            true
+        );
+        return redirect('/index');
     }
 }
