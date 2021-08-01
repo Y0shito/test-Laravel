@@ -50,6 +50,8 @@ Route::post('open', 'App\Http\Controllers\ArticleController@open');
 
 Route::post('delete', 'App\Http\Controllers\ArticleController@delete');
 
+Route::get('config', 'App\Http\Controllers\TestController@config');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

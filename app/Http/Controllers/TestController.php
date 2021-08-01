@@ -85,6 +85,12 @@ class TestController extends Controller
         return view('layouts.result');
     }
 
+    public function config()
+    {
+        return view('layouts.config');
+    }
+
+
     //ここからTwitter認証
     public function getAuth()
     {
