@@ -15,10 +15,10 @@ class CreateInfoTable extends Migration
     {
         Schema::create('info', function (Blueprint $table) {
             $table->id();
-            $table->intger('user_id');
-            $table->text('introduction');
-            $table->string('link_name',50);
-            $table->string('url',2000);
+            $table->integer('user_id');
+            $table->text('introduction')->default('自己紹介文が入力できます')->nullable();
+            $table->string('link_name',50)->default('自分のページが入力できます')->nullable();
+            $table->string('url',2000)->default('not value')->nullabel();
         });
     }
 
