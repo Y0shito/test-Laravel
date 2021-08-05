@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Models\Info;
 use App\Models\Article;
 use Illuminate\Http\Request;
 use App\Http\Requests\TestRequest;
@@ -50,7 +51,8 @@ class TestController extends Controller
     {
         $articles = Article::where('open', 1)->where('author_id', $userId)->get();
         $user = User::find($userId);
-        return view('layouts.userpage', compact('articles', 'user'));
+        $info = Info::where('user_id', $userId)->first();
+        return view('layouts.userpage', compact('articles', 'user', 'info'));
     }
 
     public function follow(Request $request)
@@ -87,9 +89,13 @@ class TestController extends Controller
 
     public function config()
     {
+        $checkInfo = User::find(Auth::id());
+        if (!empty($checkInfo)) {
+            $info = $checkInfo->getInfo;
+            return view('layouts.config', ['info' => $info]);
+        }
         return view('layouts.config');
     }
-
 
     //ここからTwitter認証
     public function getAuth()

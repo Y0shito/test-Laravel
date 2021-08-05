@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Info;
+use App\Models\User;
 use App\Models\Article;
 use App\Models\Bookmark;
 use Illuminate\Http\Request;
@@ -22,7 +24,9 @@ class ArticleController extends Controller
     {
         $items = Article::where('author_id', Auth::user()->id)->paginate(5, ['*'], 'articles');
         $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(5, ['*'], 'bookmarks');
-        return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks]);
+        // $info = User::where('user_id', Auth::id())->first();
+        $info = Info::where('user_id', Auth::id())->first();
+        return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks, 'info' => $info]);
     }
 
     public function article($id)

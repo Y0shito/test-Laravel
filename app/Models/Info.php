@@ -9,5 +9,9 @@ class Info extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'info';
+
+    protected $fillable = ['user_id', 'introduction', 'link_name', 'url'];
 }

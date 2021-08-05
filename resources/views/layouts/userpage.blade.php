@@ -1,7 +1,5 @@
 <?php
-dump($user->getFollowers()->where('follow_id', $user->id)->exists());
-dump($user->id);
-dump(Auth::id());
+
 ?>
 
 @extends('layouts.template')
@@ -15,27 +13,37 @@ dump(Auth::id());
         <div class="ml-auto">
             {{-- ログインかつ自分自身でないか --}}
             @if (Auth::check() AND !($user->id == Auth::id()))
-                {{-- 相手ユーザーIDと、自身のfollowテーブル内に相手のユーザーIDが一致するか --}}
-                @if ($user->getFollowers()->where('user_id', Auth::id())->exists())
-                    <form action="/unfollow" method="POST">
-                        @csrf
-                        <input class="btn btn-danger btn-sm" type="submit" value="フォローを外す">
-                        <input type="hidden" name="id" value="{{$user->id}}">
-                    </form>
-                @else
-                    <form action="/follow" method="POST">
-                        @csrf
-                        <input class="btn btn-outline-primary btn-sm" type="submit" value="フォローする">
-                        <input type="hidden" name="id" value="{{$user->id}}">
-                    </form>
-                @endif
+            {{-- 相手ユーザーIDと、自身のfollowテーブル内に相手のユーザーIDが一致するか --}}
+            @if ($user->getFollowers()->where('user_id', Auth::id())->exists())
+            <form action="/unfollow" method="POST">
+                @csrf
+                <input class="btn btn-danger btn-sm" type="submit" value="フォローを外す">
+                <input type="hidden" name="id" value="{{$user->id}}">
+            </form>
             @else
-                <input class="btn btn-secondary btn-sm" type="submit" value="フォローする" disabled>
+            <form action="/follow" method="POST">
+                @csrf
+                <input class="btn btn-outline-primary btn-sm" type="submit" value="フォローする">
+                <input type="hidden" name="id" value="{{$user->id}}">
+            </form>
+            @endif
+            @else
+            <input class="btn btn-secondary btn-sm" type="submit" value="フォローする" disabled>
             @endif
         </div>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"></li>
+        @if (!empty($info))
+            {{-- 何も入力されていない場合、NULLは無表示 --}}
+            @if (!empty($info->introduction))
+            <li class="list-group-item">{{$info->introduction}}</li>
+            @endif
+
+            @if (!empty($info->link_name))
+            <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
+            @endif
+        @endif
+
         <li class="list-group-item">
             総記事数：{{count($articles)}}&nbsp;
             総閲覧数：{{$user->articles()->sum('view')}}

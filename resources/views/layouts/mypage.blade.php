@@ -1,3 +1,6 @@
+<?php
+
+?>
 @extends('layouts.template')
 
 @section('title','マイページ')
@@ -7,14 +10,27 @@
     <div class="card-header d-inline-flex pb-0">
         <h3>{{Auth::user()->name}}のマイページ</h3>
         <div class="ml-auto">
-            <form action="mypage" method="post">
-                @csrf
-                <input class="btn btn-outline-danger btn-sm" type="submit" value="ログアウト">
-            </form>
+            <div class="ml-auto d-inline-flex">
+                <a class="btn btn-success btn-sm" href="/config">プロフィール編集</a>
+                <form action="mypage" method="post">
+                    @csrf
+                    <input class="btn btn-outline-danger btn-sm" type="submit" value="ログアウト">
+                </form>
+            </div>
         </div>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"></li>
+        @if (!empty($info))
+            {{-- 何も入力されていない場合、NULLは無表示 --}}
+            @if (!empty($info->introduction))
+            <li class="list-group-item">{{$info->introduction}}</li>
+            @endif
+
+            @if (!empty($info->link_name))
+            <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
+            @endif
+        @endif
+
         <li class="list-group-item">
             総記事数：{{count(Auth::user()->articles)}}&nbsp;
             総閲覧数：{{Auth::user()->articles()->sum('view')}}&nbsp;
