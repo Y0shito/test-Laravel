@@ -28,6 +28,7 @@
     <p>{!! nl2br(e(session()->get('body'))) !!}</p>
 
     <select name="category" class="custom-select mb-3">
+        <option hidden>カテゴリ絞り込み</option>
         @foreach (config('const.category') as $key => $value)
             <option value="{{$key}}">{{$value}}</option>
         @endforeach

@@ -5,7 +5,11 @@
 @section('content')
 <div class="d-flex">
     <div>
-        <h3>「{{$word}}」の検索結果（{{count($items)}}件）</h3>
+        @if(!empty($category))
+            <h3>「{{$word}}」、カテゴリ「{{$category}}」の検索結果：{{count($items)}}件</h3>
+        @else
+            <h3>「{{$word}}」の検索結果：{{count($items)}}件</h3>
+        @endif
     </div>
     {{-- <div class="ml-auto">
         <div class="btn-group">
@@ -16,12 +20,14 @@
         </div>
     </div> --}}
 </div>
+
 {{-- ここから検索結果 --}}
 @if (count($items) == 0)
 <div class="alert alert-warning">
     記事が見つかりませんでした
 </div>
 @endif
+
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">

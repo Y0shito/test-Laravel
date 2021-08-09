@@ -147,6 +147,11 @@ class ArticleController extends Controller
     {
         $query = Article::where('open', 1);
         $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 3, PREG_SPLIT_NO_EMPTY);
+        $category = $request->category;
+
+        if (!empty($category)) {
+            $query->where('category', 'like', "{$category}");
+        }
 
         if (!empty($words)) {
             foreach ($words as $word) {
@@ -156,12 +161,10 @@ class ArticleController extends Controller
                     $query->where('title', 'not like', '%' . preg_replace('/-/', '', $word) . '%');
                 }
             }
-        } else {
-            return redirect('/index');
         }
 
         $sort = $request->sort;
         $article = $query->orderBy($sort, 'asc')->paginate(10);
-        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort]);
+        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort, 'category' => $category]);
     }
 }

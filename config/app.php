@@ -231,9 +231,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
-
-        //だめなら以下を試す
-        // 'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
 ];
