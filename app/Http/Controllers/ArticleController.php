@@ -15,16 +15,14 @@ class ArticleController extends Controller
 {
     public function show(Request $request)
     {
-        $sort = $request->sort;
-        $items = Article::where('open', 1)->with('author')->orderBy($sort, 'asc')->paginate(7);
-        return view('layouts.index', ['items' => $items, 'sort' => $sort]);
+        $items = Article::where('open', 1)->with('author')->sortable()->paginate(7);
+        return view('layouts.index', ['items' => $items]);
     }
 
     public function myArticles(Request $request)
     {
         $items = Article::where('author_id', Auth::user()->id)->paginate(5, ['*'], 'articles');
         $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(5, ['*'], 'bookmarks');
-        // $info = User::where('user_id', Auth::id())->first();
         $info = Info::where('user_id', Auth::id())->first();
         return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks, 'info' => $info]);
     }

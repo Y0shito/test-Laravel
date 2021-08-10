@@ -6,19 +6,19 @@
 <div class="d-flex">
     <div>
         @if(!empty($category))
-            <h3>「{{$word}}」、カテゴリ「{{$category}}」の検索結果：{{count($items)}}件</h3>
+        <h3>「{{$word}}」、カテゴリ「{{$category}}」の検索結果：{{count($items)}}件</h3>
         @else
-            <h3>「{{$word}}」の検索結果：{{count($items)}}件</h3>
+        <h3>「{{$word}}」の検索結果：{{count($items)}}件</h3>
         @endif
     </div>
-    {{-- <div class="ml-auto">
+    <div class="ml-auto">
         <div class="btn-group">
-            <a class="btn btn-outline-secondary" href="/result?sort=id">ID昇順</a>
-            <a class="btn btn-outline-secondary" href="/result?sort=title">タイトル順</a>
-            <a class="btn btn-outline-secondary" href="/result?sort=view">閲覧数順</a>
-            <a class="btn btn-outline-secondary" href="/result?sort=created_at">投稿日順</a>
+            {{-- @sortablelink('title','タイトル順','', ['class' => 'btn btn-outline-secondary'])
+            @sortablelink('view','閲覧数','', ['class' => 'btn btn-outline-secondary'])
+            @sortablelink('created_at','作成日順','', ['class' => 'btn btn-outline-secondary']) --}}
+            {{-- 閲覧数はデフォルトでdescにしたい --}}
         </div>
-    </div> --}}
+    </div>
 </div>
 
 {{-- ここから検索結果 --}}
@@ -51,7 +51,7 @@
     </div>
 </div>
 @endforeach
-{{$items->appends(['sort' => $sort])->links()}}
+{{$items->appends(request()->query())->links()}}
 @endsection
 
 {{-- ページネート遷移やソートすると「変数が無い」旨のエラーが出る->セッションで変数維持しなければダメか --}}

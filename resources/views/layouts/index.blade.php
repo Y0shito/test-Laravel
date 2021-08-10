@@ -1,7 +1,3 @@
-<?php
-// dd(user('id'));
-?>
-
 @extends('layouts.template')
 
 @section('title','TOP')
@@ -13,11 +9,10 @@
     </div>
     <div class="ml-auto">
         <div class="btn-group">
-            <a class="btn btn-outline-secondary" href="/index?sort=id">ID昇順</a>
-            <a class="btn btn-outline-secondary" href="/index?sort=title">タイトル順</a>
-            <a class="btn btn-outline-secondary" href="/index?sort=view">閲覧数順</a>
-            <a class="btn btn-outline-secondary" href="/index?sort=created_at">投稿日順</a>
-            {{-- 現時点ですべてasc->ボタンによってdescにもしたい --}}
+            @sortablelink('title','タイトル順','', ['class' => 'btn btn-outline-secondary'])
+            @sortablelink('view','閲覧数','', ['class' => 'btn btn-outline-secondary'])
+            @sortablelink('created_at','作成日順','', ['class' => 'btn btn-outline-secondary'])
+            {{-- 閲覧数はデフォルトでdescにしたい --}}
         </div>
     </div>
 </div>
@@ -71,6 +66,6 @@
 </div>
 @endforeach
 <div class="d-flex justify-content-center">
-    {{$items->appends(['sort' => $sort])->links()}}
+    {{$items->appends(request()->query())->links()}}
 </div>
 @endsection
