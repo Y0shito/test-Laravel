@@ -13,9 +13,9 @@
     </div>
     <div class="ml-auto">
         <div class="btn-group">
-            {{-- @sortablelink('title','タイトル順','', ['class' => 'btn btn-outline-secondary'])
+            @sortablelink('title','タイトル順','', ['class' => 'btn btn-outline-secondary'])
             @sortablelink('view','閲覧数','', ['class' => 'btn btn-outline-secondary'])
-            @sortablelink('created_at','作成日順','', ['class' => 'btn btn-outline-secondary']) --}}
+            @sortablelink('created_at','作成日順','', ['class' => 'btn btn-outline-secondary'])
             {{-- 閲覧数はデフォルトでdescにしたい --}}
         </div>
     </div>
@@ -31,7 +31,7 @@
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">
-        <h3><a href="article/id={{$item->id}}">{{$item->title}}</a></h3>
+        <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
     </div>
 
     <div class="card-body">
