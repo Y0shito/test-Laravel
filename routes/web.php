@@ -32,7 +32,9 @@ Route::get('create', 'App\Http\Controllers\TestController@create');
 Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
 
 Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview');
-Route::post('preview', 'App\Http\Controllers\ArticleController@addOrDraft');
+
+Route::post('draft', 'App\Http\Controllers\ArticleController@draft');
+Route::post('add', 'App\Http\Controllers\ArticleController@add');
 
 // Route::get('result', 'App\Http\Controllers\TestController@result');
 Route::get('result', 'App\Http\Controllers\ArticleController@search');

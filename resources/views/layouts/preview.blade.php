@@ -9,7 +9,7 @@
     記事はまだ投稿されていません。記事内容をご確認ください
 </div>
 
-<form action="" method="post">
+<form method="post">
     @csrf
     <div class="d-flex">
         <div>
@@ -36,11 +36,8 @@
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
-            <input class="btn btn-secondary btn-lg" type="submit" class="draft" value="下書きへ保存">
-            <input type="hidden" name="proc" value="draft">
-
-            <input class="btn btn-primary btn-lg" type="submit" class="add" value="投稿">
-            <input type="hidden" name="proc" value="add">
+            <input class="btn btn-secondary btn-lg" type="submit" name="draft" formaction="draft" value="下書きへ保存">
+            <input class="btn btn-primary btn-lg" type="submit" name="add" formaction="add" value="投稿">
         </div>
     </div>
 

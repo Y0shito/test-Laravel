@@ -52,36 +52,37 @@ class ArticleController extends Controller
         return view('layouts.preview');
     }
 
-    public function addOrDraft(Request $request)
+    public function add(Request $request)
     {
-        if ($request->proc == 'add') {
-            $article = new Article;
-            $article->title = $request->session()->get('title');
-            $article->body = $request->session()->get('body');
-            $article->view = 0;
-            $article->author_id = Auth::user()->id;
-            $article->open = 1;
-            $article->created_at = Carbon::now('Asia/Tokyo');
-            $article->category = $request->category;
-            $article->save();
+        $article = new Article;
+        $article->title = $request->session()->get('title');
+        $article->body = $request->session()->get('body');
+        $article->view = 0;
+        $article->author_id = Auth::id();
+        $article->open = 1;
+        $article->created_at = Carbon::now('Asia/Tokyo');
+        $article->category = $request->category;
+        $article->save();
 
-            $request->session()->forget(['title', 'body']);
+        $request->session()->forget(['title', 'body']);
 
-            return redirect('/mypage');
-        } else if ($request->proc == 'draft') {
-            $article = new Article;
-            $article->title = $request->session()->get('title');
-            $article->body = $request->session()->get('body');
-            $article->view = 0;
-            $article->author_id = Auth::user()->id;
-            $article->open = 0;
-            $article->created_at = Carbon::now('Asia/Tokyo');
-            $article->save();
+        return redirect('/mypage');
+    }
 
-            $request->session()->forget(['title', 'body']);
+    public function draft(Request $request)
+    {
+        $article = new Article;
+        $article->title = $request->session()->get('title');
+        $article->body = $request->session()->get('body');
+        $article->view = 0;
+        $article->author_id = Auth::id();
+        $article->open = 0;
+        $article->created_at = Carbon::now('Asia/Tokyo');
+        $article->save();
 
-            return redirect('/mypage');
-        }
+        $request->session()->forget(['title', 'body']);
+
+        return redirect('/mypage');
     }
 
     public function edit(Request $request)
