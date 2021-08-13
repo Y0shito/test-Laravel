@@ -161,8 +161,7 @@ class ArticleController extends Controller
             }
         }
 
-        $sort = $request->sort;
-        $article = $query->orderBy($sort, 'asc')->paginate(10);
-        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'sort' => $sort, 'category' => $category]);
+        $article = $query->sortable()->paginate(10);
+        return view('layouts.result', ['word' => $request->search, 'items' => $article, 'category' => $category]);
     }
 }

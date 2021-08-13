@@ -18,9 +18,6 @@ Route::get('mypage', 'App\Http\Controllers\ArticleController@myArticles');
 Route::get('user/{user}', 'App\Http\Controllers\TestController@userpage');
 
 Route::post('follow', 'App\Http\Controllers\TestController@follow');
-// Route::get('follow', function(){
-//     return '<html><body>page</body></html>';
-// });
 Route::post('unfollow', 'App\Http\Controllers\TestController@unFollow');
 
 Route::get('index', 'App\Http\Controllers\TestController@index');
@@ -37,8 +34,8 @@ Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
 Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview');
 Route::post('preview', 'App\Http\Controllers\ArticleController@addOrDraft');
 
-Route::get('result', 'App\Http\Controllers\TestController@result');
-Route::post('result', 'App\Http\Controllers\ArticleController@search');
+// Route::get('result', 'App\Http\Controllers\TestController@result');
+Route::get('result', 'App\Http\Controllers\ArticleController@search');
 
 Route::post('edit', 'App\Http\Controllers\ArticleController@edit');
 

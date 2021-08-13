@@ -27,8 +27,7 @@
                 </div>
             </div>
 
-            <form class="form-inline" action="result" method="post">
-                @csrf
+            <form class="form-inline" action="result" method="get">
                 @if (isset($word))
                 <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" value="{{$word}}"
                     aria-label="Search" name="search">
