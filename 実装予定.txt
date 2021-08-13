@@ -125,6 +125,8 @@ DBをMySQLへ
 
 Route::resource使う
 
+Laravel/uiは非推奨らしい→jetstreemかbreeze?
+
 ログイン周りのセキュリティ強化
 
 省コード化

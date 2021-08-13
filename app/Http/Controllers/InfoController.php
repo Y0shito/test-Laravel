@@ -10,9 +10,16 @@ class InfoController extends Controller
 {
     public function updateInfo(Request $request)
     {
+        // 文字列の前後にある空白、改行等の削除
+        $pattern = '/\A[\p{Cc}\p{Cf}\p{Z}]++|[\p{Cc}\p{Cf}\p{Z}]++\z/u';
+
+        $introduction = preg_replace($pattern, '', $request->introduction);
+        $link_name = preg_replace($pattern, '', $request->link_name);
+        $url = preg_replace($pattern, '', $request->url);
+
         $info = Info::updateOrCreate(
             ['user_id' => Auth::id()],
-            ['introduction' => $request->introduction, 'link_name' => $request->link_name, 'url' => $request->url]
+            ['introduction' => $introduction, 'link_name' => $link_name, 'url' => $url]
         );
         return redirect('/mypage');
     }

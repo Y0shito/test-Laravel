@@ -11,7 +11,6 @@
         <h3>{{Auth::user()->name}}のマイページ</h3>
         <div class="ml-auto">
             <div class="ml-auto d-inline-flex">
-                <a class="btn btn-success btn-sm" href="/config">プロフィール編集</a>
                 <form action="mypage" method="post">
                     @csrf
                     <input class="btn btn-outline-danger btn-sm" type="submit" value="ログアウト">
@@ -44,21 +43,25 @@
 
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
-            aria-controls="pills-home" aria-selected="true">記事</a>
+        <a class="nav-link active" id="pills-articles-tab" data-toggle="pill" href="#pills-articles" role="tab"
+            aria-controls="pills-articles" aria-selected="true">記事</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-            aria-controls="pills-profile" aria-selected="false">ブックマーク</a>
+        <a class="nav-link" id="pills-bookmarks-tab" data-toggle="pill" href="#pills-bookmarks" role="tab"
+            aria-controls="pills-bookmarks" aria-selected="false">ブックマーク</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab"
-            aria-controls="pills-contact" aria-selected="false">フォロー</a>
+        <a class="nav-link" id="pills-follows-tab" data-toggle="pill" href="#pills-follows" role="tab"
+            aria-controls="pills-follows" aria-selected="false">フォロー</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-follows-tab" data-toggle="pill" href="#pills-config" role="tab"
+            aria-controls="pills-config" aria-selected="false">設定</a>
     </li>
 </ul>
 
 <div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-home" role="tabpanel">
+    <div class="tab-pane fade show active" id="pills-articles" role="tabpanel">
         {{-- ここから執筆記事 --}}
         <h3>公開中の記事：{{count($items)}}件</h3>
 
@@ -120,7 +123,7 @@
 
     </div>
 
-    <div class="tab-pane fade" id="pills-profile" role="tabpanel">
+    <div class="tab-pane fade" id="pills-bookmarks" role="tabpanel">
         {{-- ここからブックマークした記事 --}}
         <h3>ブックマークした記事：{{count($bookmarks)}}件</h3>
 
@@ -154,7 +157,7 @@
         </div>
     </div>
 
-    <div class="tab-pane fade" id="pills-contact" role="tabpanel">
+    <div class="tab-pane fade" id="pills-follows" role="tabpanel">
         {{-- ここからブックマークした記事 --}}
         <h3>フォローしている人：{{count($getFollows)}}件</h3>
         <ul class="list-gloup">
@@ -164,6 +167,50 @@
         </ul>
     </div>
 
+    <div class="tab-pane fade" id="pills-config" role="tabpanel">
+        <form action="update_info" method="post">
+            @csrf
+            @if (isset($info))
+            <div class="form-group">
+                自己紹介
+                <textarea class="form-control" name="introduction" rows="10" placeholder="30文字以上、1000文字以下で入力してください">{{$info->introduction}}</textarea>
+            </div>
+
+            <div class="form-group">
+                リンク（自身のウェブページなど）
+                <input type="text" class="form-control" name="link_name" placeholder="50文字以下で入力してください"
+                    value="{{$info->link_name}}">
+            </div>
+
+            <div class="form-group">
+                リンク先URL
+                <input type="text" class="form-control" name="url" placeholder="URLを入力してください" value="{{$info->url}}">
+            </div>
+            @else
+            <div class="form-group">
+                自己紹介
+                <textarea class="form-control" name="introduction" rows="10" placeholder="30文字以上、1000文字以下で入力してください"></textarea>
+            </div>
+
+            <div class="form-group">
+                リンク（自身のウェブページなど）
+                <input type="text" class="form-control" name="link_name" placeholder="50文字以下で入力してください" value="">
+            </div>
+
+            <div class="form-group">
+                リンク先URL
+                <input type="text" class="form-control" name="url" placeholder="URLを入力してください" value="">
+            </div>
+
+            @endif
+
+            <div class="d-flex justify-content-center mb-3">
+                <div class="button">
+                    <input class="btn btn-primary btn-lg" type="submit" value="確定">
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 @endsection

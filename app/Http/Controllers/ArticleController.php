@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use App\Models\Info;
-use App\Models\User;
+use App\Http\Requests\TestRequest;
 use App\Models\Article;
 use App\Models\Bookmark;
+use App\Models\Info;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Requests\TestRequest;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller

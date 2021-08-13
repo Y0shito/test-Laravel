@@ -44,7 +44,13 @@ class TestController extends Controller
     public function mypage()
     {
         $user = Auth::user();
-        return view('layouts.mypage', ['user' => $user]);
+
+        $checkInfo = User::find(Auth::id());
+        if (!empty($checkInfo)) {
+            $info = $checkInfo->getInfo;
+        }
+
+        return view('layouts.mypage', ['user' => $user, 'info' => $info]);
     }
 
     public function userpage($userId)
@@ -85,16 +91,6 @@ class TestController extends Controller
     public function result()
     {
         return view('layouts.result');
-    }
-
-    public function config()
-    {
-        $checkInfo = User::find(Auth::id());
-        if (!empty($checkInfo)) {
-            $info = $checkInfo->getInfo;
-            return view('layouts.config', ['info' => $info]);
-        }
-        return view('layouts.config');
     }
 
     //ここからTwitter認証
