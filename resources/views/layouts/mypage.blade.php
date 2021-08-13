@@ -130,7 +130,7 @@
         @foreach ($bookmarks as $bookmark)
         <div class="card my-3">
             <div class="card-header d-inline-flex pb-0">
-                <h3><a href="article/id={{$bookmark->articles->id}}">{{$bookmark->articles->title}}</a></h3>
+                <h3><a href="article/id/{{$bookmark->articles->id}}">{{$bookmark->articles->title}}</a></h3>
             </div>
 
             <div class="card-body">
