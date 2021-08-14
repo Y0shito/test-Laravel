@@ -11,7 +11,7 @@
 </div>
 @endif
 
-<form action="update" method="post">
+<form method="post">
     @csrf
     <input type="hidden" name="id" value="{{$form->id}}">
 
@@ -29,11 +29,8 @@
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
-            <input class="btn btn-secondary" type="submit" class="draft" value="下書きへ保存">
-            <input type="hidden" name="proc" value="draft">
-
-            <input type="submit" class="btn btn-primary" class="update" class="update" value="変更して公開">
-            <input type="hidden" name="proc" value="update">
+            <input class="btn btn-secondary" type="submit" name="re_draft" formaction="re_draft" value="下書きへ保存">
+            <input class="btn btn-primary" type="submit" name="update" formaction="update" value="変更して公開">
         </div>
     </div>
 </form>

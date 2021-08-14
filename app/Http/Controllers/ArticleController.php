@@ -93,27 +93,26 @@ class ArticleController extends Controller
 
     public function update(TestRequest $request)
     {
-        if ($request->proc == 'update') {
-            $article = Article::find($request->id);
-            $article->title = $request->title;
-            $article->body = $request->body;
-            $article->updated_at = Carbon::now('Asia/Tokyo');
-            $article->open = 1;
-            $article->save();
+        $article = Article::find($request->id);
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->updated_at = Carbon::now('Asia/Tokyo');
+        $article->open = 1;
+        $article->save();
 
-            return redirect('/mypage');
-        } else if ($request->proc == 'draft') {
-            $article = Article::find($request->id);
-            $article->title = $request->title;
-            $article->body = $request->body;
-            $article->open = 0;
-            $article->save();
-
-            return redirect('/mypage');
-        }
+        return redirect('/mypage');
     }
-    // 下書き保存やっても公開されてしまう->draft通ってない？
-    // addも同様
+
+    public function reDraft(TestRequest $request)
+    {
+        $article = Article::find($request->id);
+        $article->title = $request->title;
+        $article->body = $request->body;
+        $article->open = 0;
+        $article->save();
+
+        return redirect('/mypage');
+    }
 
     public function open(Request $request)
     {

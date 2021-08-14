@@ -78,20 +78,20 @@ class TestController extends Controller
         return view('layouts.create');
     }
 
-    public function preview()
-    {
-        return view('layouts.preview');
-    }
+    // public function preview()
+    // {
+    //     return view('layouts.preview');
+    // }
 
-    public function article()
-    {
-        return view('layouts.article');
-    }
+    // public function article()
+    // {
+    //     return view('layouts.article');
+    // }
 
-    public function result()
-    {
-        return view('layouts.result');
-    }
+    // public function result()
+    // {
+    //     return view('layouts.result');
+    // }
 
     //ここからTwitter認証
     public function getAuth()

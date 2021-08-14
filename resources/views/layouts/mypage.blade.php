@@ -61,8 +61,8 @@
 </ul>
 
 <div class="tab-content" id="pills-tabContent">
+    {{-- ここから執筆記事 --}}
     <div class="tab-pane fade show active" id="pills-articles" role="tabpanel">
-        {{-- ここから執筆記事 --}}
         <h3>公開中の記事：{{count($items)}}件</h3>
 
         @foreach($items as $item)
@@ -123,8 +123,8 @@
 
     </div>
 
+    {{-- ここからブックマークした記事 --}}
     <div class="tab-pane fade" id="pills-bookmarks" role="tabpanel">
-        {{-- ここからブックマークした記事 --}}
         <h3>ブックマークした記事：{{count($bookmarks)}}件</h3>
 
         @foreach ($bookmarks as $bookmark)
@@ -157,8 +157,8 @@
         </div>
     </div>
 
+    {{-- ここからフォローした人 --}}
     <div class="tab-pane fade" id="pills-follows" role="tabpanel">
-        {{-- ここからブックマークした記事 --}}
         <h3>フォローしている人：{{count($getFollows)}}件</h3>
         <ul class="list-gloup">
             @foreach ($getFollows as $item)
@@ -167,6 +167,7 @@
         </ul>
     </div>
 
+    {{-- ここからプロフィール設定 --}}
     <div class="tab-pane fade" id="pills-config" role="tabpanel">
         <form action="update_info" method="post">
             @csrf
