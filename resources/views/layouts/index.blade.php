@@ -54,11 +54,12 @@
     <div class="card-footer">
         <p class="card-text">
             閲覧数：{{$item->view}}&nbsp;
-            @if(isset($item->updated_at))
-            更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
-            @else
-            作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
-            @endif
+
+            {{ isset($item->updated_at)
+            ? "更新日：{$item->updated_at->format('Y年m月d日')}"
+            : "作成日：{$item->created_at->format('Y年m月d日')}"
+            }}
+
             カテゴリ：{{$item->category}}&nbsp;
             作成者：<a href="user/{{$item->author->id}}">{{$item->author->name}}</a>
         </p>

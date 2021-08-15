@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 @extends('layouts.template')
 
 @section('title','ユーザーページ')
@@ -66,11 +62,12 @@
     <div class="card-footer">
         <p class="card-text">
             閲覧数：{{$item->view}}&nbsp;
-            @if(isset($item->updated_at))
-            更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
-            @else
-            作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
-            @endif
+
+            {{ isset($item->updated_at)
+            ? "更新日：{$item->updated_at->format('Y年m月d日')}"
+            : "作成日：{$item->created_at->format('Y年m月d日')}"
+            }}
+
             ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
             カテゴリ：{{$item->category}}
         </p>

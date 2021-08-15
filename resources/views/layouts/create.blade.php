@@ -14,22 +14,13 @@
     @csrf
     <div class="form-group">
         タイトル
-        @if (session()->has('title'))
-        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください" value="{{session()->get('title')}}">
-        @else
-        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください" value="{{old('title')}}">
-        @endif
+        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください" value="{{session()->has('title') ? session()->get('title') : old('title')}}">
     </div>
 
     <div class="form-group">
         本文
-        @if (session()->has('body'))
         <textarea class="form-control" name="body" rows="15"
-            placeholder="30文字以上、1000文字以下で入力してください">{{session()->get('body')}}</textarea>
-        @else
-        <textarea class="form-control" name="body" rows="15"
-            placeholder="30文字以上、1000文字以下で入力してください">{{old('body')}}</textarea>
-        @endif
+            placeholder="30文字以上、1000文字以下で入力してください">{{session()->has('body') ? session()->get('body') : old('body')}}</textarea>
     </div>
 
     <div class="d-flex justify-content-center mb-3">

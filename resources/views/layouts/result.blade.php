@@ -5,11 +5,13 @@
 @section('content')
 <div class="d-flex">
     <div>
-        @if(!empty($category))
-        <h3>「{{$word}}」、カテゴリ「{{$category}}」の検索結果：{{count($items)}}件</h3>
-        @else
-        <h3>「{{$word}}」の検索結果：{{count($items)}}件</h3>
-        @endif
+        <h3>
+            {{ !empty($category)
+            ? "「{$word}」、カテゴリ「{$category}」の検索結果：件"
+            : "「{$word}」の検索結果：件"
+            }}
+        </h3>
+        {{-- 検索結果が現在ページの合計になっている --}}
     </div>
     <div class="ml-auto">
         <div class="btn-group">
@@ -41,11 +43,12 @@
     <div class="card-footer">
         <p class="card-text">
             閲覧数：{{$item->view}}&nbsp;
-            @if(isset($item->updated_at))
-            更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
-            @else
-            作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
-            @endif
+
+            {{ isset($item->updated_at)
+            ? "更新日：{$item->updated_at->format('Y年m月d日')}"
+            : "作成日：{$item->created_at->format('Y年m月d日')}"
+            }}
+
             作成者：{{$item->author->name}}&nbsp;
         </p>
     </div>
@@ -53,5 +56,3 @@
 @endforeach
 {{$items->appends(request()->query())->links()}}
 @endsection
-
-{{-- ページネート遷移やソートすると「変数が無い」旨のエラーが出る->セッションで変数維持しなければダメか --}}

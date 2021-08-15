@@ -20,13 +20,13 @@
     </div>
     <ul class="list-group list-group-flush">
         @if (!empty($info))
-            {{-- 何も入力されていない場合、NULLは無表示 --}}
+        {{-- 何も入力されていない場合、NULLは無表示 --}}
             @if (!empty($info->introduction))
-            <li class="list-group-item">{{$info->introduction}}</li>
+                <li class="list-group-item">{{$info->introduction}}</li>
             @endif
 
             @if (!empty($info->link_name))
-            <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
+                <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
             @endif
         @endif
 
@@ -40,7 +40,7 @@
 <br>
 
 
-
+{{-- Bootstrap タブパネル --}}
 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="pills-articles-tab" data-toggle="pill" href="#pills-articles" role="tab"
@@ -105,11 +105,12 @@
             <div class="card-footer">
                 <p class="card-text">
                     閲覧数：{{$item->view}}&nbsp;
-                    @if(isset($item->updated_at))
-                    更新日：{{$item->updated_at->format('Y年m月d日') }}&nbsp;
-                    @else
-                    作成日：{{$item->created_at->format('Y年m月d日') }}&nbsp;
-                    @endif
+
+                    {{ isset($item->updated_at)
+                    ? "更新日：{$item->updated_at->format('Y年m月d日')}"
+                    : "作成日：{$item->created_at->format('Y年m月d日')}"
+                    }}
+
                     ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
                     カテゴリ：{{$item->category}}
                 </p>
@@ -140,11 +141,12 @@
             <div class="card-footer">
                 <p class="card-text">
                     閲覧数：{{$bookmark->articles->view}}&nbsp;
-                    @if(isset($bookmark->articles->updated_at))
-                    更新日：{{$bookmark->articles->updated_at->format('Y年m月d日') }}&nbsp;
-                    @else
-                    作成日：{{$bookmark->articles->created_at->format('Y年m月d日') }}&nbsp;
-                    @endif
+
+                    {{isset($bookmark->articles->updated_at)
+                    ? "作成日：{$bookmark->articles->updated_at->format('Y年m月d日')}"
+                    : "更新日：{$bookmark->articles->created_at->format('Y年m月d日')}"
+                    }}
+
                     作成者：{{$bookmark->articles->author->name}}&nbsp;
                     カテゴリ：{{$bookmark->articles->category}}
                 </p>
@@ -171,39 +173,23 @@
     <div class="tab-pane fade" id="pills-config" role="tabpanel">
         <form action="update_info" method="post">
             @csrf
-            @if (isset($info))
             <div class="form-group">
                 自己紹介
-                <textarea class="form-control" name="introduction" rows="10" placeholder="30文字以上、1000文字以下で入力してください">{{$info->introduction}}</textarea>
+                <textarea class="form-control" name="introduction" rows="10"
+                    placeholder="30文字以上、1000文字以下で入力してください">{{isset($info) ? $info->introduction : ''}}</textarea>
             </div>
 
             <div class="form-group">
                 リンク（自身のウェブページなど）
                 <input type="text" class="form-control" name="link_name" placeholder="50文字以下で入力してください"
-                    value="{{$info->link_name}}">
+                    value="{{isset($info) ? $info->link_name : ''}}">
             </div>
 
             <div class="form-group">
                 リンク先URL
-                <input type="text" class="form-control" name="url" placeholder="URLを入力してください" value="{{$info->url}}">
+                <input type="text" class="form-control" name="url" placeholder="URLを入力してください"
+                    value="{{isset($info) ? $info->url : ''}}">
             </div>
-            @else
-            <div class="form-group">
-                自己紹介
-                <textarea class="form-control" name="introduction" rows="10" placeholder="30文字以上、1000文字以下で入力してください"></textarea>
-            </div>
-
-            <div class="form-group">
-                リンク（自身のウェブページなど）
-                <input type="text" class="form-control" name="link_name" placeholder="50文字以下で入力してください" value="">
-            </div>
-
-            <div class="form-group">
-                リンク先URL
-                <input type="text" class="form-control" name="url" placeholder="URLを入力してください" value="">
-            </div>
-
-            @endif
 
             <div class="d-flex justify-content-center mb-3">
                 <div class="button">
