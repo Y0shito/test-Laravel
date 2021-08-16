@@ -33,6 +33,17 @@ class ArticleController extends Controller
         return view('layouts.article', ['article' => $article]);
     }
 
+    public function create()
+    {
+        return view('layouts.create');
+    }
+
+    public function edit(Request $request)
+    {
+        $article = Article::find($request->id);
+        return view('layouts.create', ['article' => $article]);
+    }
+
     public function toPreview(TestRequest $request)
     {
         // 文字列の前後にある空白、改行等の削除
@@ -41,8 +52,7 @@ class ArticleController extends Controller
         $title = preg_replace($pattern, '', $request->title);
         $body = preg_replace($pattern, '', $request->body);
 
-        $request->session()->put('title', $title);
-        $request->session()->put('body', $body);
+        $request->session()->put(['title' => $title, 'body' => $body, 'article_id' => $request->article_id]);
 
         return redirect('/preview');
     }
@@ -54,18 +64,19 @@ class ArticleController extends Controller
 
     public function add(Request $request)
     {
-        $article = new Article;
-        $article->title = $request->session()->get('title');
-        $article->body = $request->session()->get('body');
-        $article->view = 0;
-        $article->author_id = Auth::id();
-        $article->open = 1;
-        $article->created_at = Carbon::now('Asia/Tokyo');
-        $article->category = $request->category;
-        $article->save();
+        $article = Article::updateOrCreate(
+            ['id' => session()->get('article_id')],
+            [
+                'title' => $request->session()->get('title'),
+                'body' => $request->session()->get('body'),
+                'author_id' => Auth::id(),
+                'open' => 1,
+                'category' => $request->category,
+                // updated_at, created_atが同時かつ同じ値で記録される
+            ]
+        );
 
-        $request->session()->forget(['title', 'body']);
-
+        $request->session()->forget(['title', 'body', 'article_id']);
         return redirect('/mypage');
     }
 
@@ -81,24 +92,6 @@ class ArticleController extends Controller
         $article->save();
 
         $request->session()->forget(['title', 'body']);
-
-        return redirect('/mypage');
-    }
-
-    public function edit(Request $request)
-    {
-        $article = Article::find($request->id);
-        return view('layouts.update', ['form' => $article]);
-    }
-
-    public function update(TestRequest $request)
-    {
-        $article = Article::find($request->id);
-        $article->title = $request->title;
-        $article->body = $request->body;
-        $article->updated_at = Carbon::now('Asia/Tokyo');
-        $article->open = 1;
-        $article->save();
 
         return redirect('/mypage');
     }
@@ -137,13 +130,13 @@ class ArticleController extends Controller
         $article = Article::find($request->id);
         $article->delete();
 
-        return redirect('/index');
+        return redirect('/mypage');
     }
 
     public function search(Request $request)
     {
         $query = Article::where('open', 1);
-        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 3, PREG_SPLIT_NO_EMPTY);
+        $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 5, PREG_SPLIT_NO_EMPTY);
         $category = $request->category;
 
         if (!empty($category)) {

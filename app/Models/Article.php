@@ -11,13 +11,11 @@ class Article extends Model
     use HasFactory;
     use Sortable;
 
-    public $timestamps = false;
+    // public $timestamps = false;
     public $sortable = ['title', 'view', 'created_at'];
 
-    protected $dates = [
-        'created_at',
-        'updated_at'
-    ];
+    protected $fillable = ['title', 'body', 'author_id', 'open', 'category'];
+    protected $dates = ['created_at', 'updated_at'];
 
     public function author()
     {

@@ -73,11 +73,6 @@ class TestController extends Controller
         return back();
     }
 
-    public function create()
-    {
-        return view('layouts.create');
-    }
-
     // public function preview()
     // {
     //     return view('layouts.preview');

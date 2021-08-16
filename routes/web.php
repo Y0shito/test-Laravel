@@ -27,7 +27,7 @@ Route::post('bmRemove', 'App\Http\Controllers\BookmarkController@bmRemove');
 
 Route::get('article/id/{id}', 'App\Http\Controllers\ArticleController@article');
 
-Route::get('create', 'App\Http\Controllers\TestController@create');
+Route::get('create', 'App\Http\Controllers\ArticleController@create');
 Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
 
 Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview');
