@@ -1,5 +1,7 @@
 @extends('layouts.template')
 
+@section('title','編集ページ')
+
 @section('content')
 
 @if(count($errors) > 0)
@@ -14,14 +16,17 @@
     @csrf
     <div class="form-group">
         タイトル
-        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください" value="{{session()->has('title') ? session()->get('title') : old('title')}}">
+        <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください"
+        value="{{ $errors->has('*') ? old('title') : ($article['title'] ?? '' )}}">
     </div>
 
     <div class="form-group">
         本文
         <textarea class="form-control" name="body" rows="15"
-            placeholder="30文字以上、1000文字以下で入力してください">{{session()->has('body') ? session()->get('body') : old('body')}}</textarea>
+            placeholder="30文字以上、1000文字以下で入力してください">{{ $errors->has('*') ? old('body') : ($article['body'] ?? '' )}}</textarea>
     </div>
+
+    <input type="hidden" name="article_id" value="{{ $article['id'] ?? '' }}">
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
