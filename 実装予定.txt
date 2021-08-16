@@ -134,3 +134,4 @@ Laravel/uiは非推奨らしい→jetstreemかbreeze?
 省コード化
 
 ベストプラクティスに沿ったコーディング
+コード規約、命名規則(PHP,Laravel,DB)

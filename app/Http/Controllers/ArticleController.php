@@ -72,7 +72,9 @@ class ArticleController extends Controller
                 'author_id' => Auth::id(),
                 'open' => 1,
                 'category' => $request->category,
+                // 更新時、カテゴリの初期値を新規時に選んだモノにしたい
                 // updated_at, created_atが同時かつ同じ値で記録される
+                // timestampsをfalseにするか？
             ]
         );
 
@@ -82,28 +84,20 @@ class ArticleController extends Controller
 
     public function draft(Request $request)
     {
-        $article = new Article;
-        $article->title = $request->session()->get('title');
-        $article->body = $request->session()->get('body');
-        $article->view = 0;
-        $article->author_id = Auth::id();
-        $article->open = 0;
-        $article->created_at = Carbon::now('Asia/Tokyo');
-        $article->save();
+        $article = Article::updateOrCreate(
+            ['id' => session()->get('article_id')],
+            [
+                'title' => $request->session()->get('title'),
+                'body' => $request->session()->get('body'),
+                'author_id' => Auth::id(),
+                'open' => 0,
+                'category' => $request->category,
+                // updated_at, created_atが同時かつ同じ値で記録される
+                // timestampsをfalseにするか？
+            ]
+        );
 
-        $request->session()->forget(['title', 'body']);
-
-        return redirect('/mypage');
-    }
-
-    public function reDraft(TestRequest $request)
-    {
-        $article = Article::find($request->id);
-        $article->title = $request->title;
-        $article->body = $request->body;
-        $article->open = 0;
-        $article->save();
-
+        $request->session()->forget(['title', 'body', 'article_id']);
         return redirect('/mypage');
     }
 
