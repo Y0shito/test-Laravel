@@ -12,13 +12,12 @@ class BookmarkController extends Controller
 {
     public function bmAdd(Request $request)
     {
-        $bookmark = new Bookmark;
-        $bookmark->user_id = Auth::user()->id;
-        $bookmark->article_id = $request->id;
-        $bookmark->created_at = Carbon::now('Asia/Tokyo');
-        $bookmark->updated_at = '0000-00-00 00:00:00';
-        $bookmark->save();
-
+        $bookmark = Bookmark::create(
+            [
+                'user_id' => Auth::id(),
+                'article_id' => $request->id,
+            ]
+        );
         return back();
     }
 

@@ -9,7 +9,10 @@ class Bookmark extends Model
 {
     use HasFactory;
 
-    public function articles(){
+    protected $fillable = ['user_id', 'article_id'];
+
+    public function articles()
+    {
         return $this->belongsTo('App\Models\Article', 'article_id', 'id');
     }
 }

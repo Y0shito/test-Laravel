@@ -38,10 +38,7 @@ Route::post('draft', 'App\Http\Controllers\ArticleController@draft');
 Route::post('edit', 'App\Http\Controllers\ArticleController@edit');
 Route::post('re_draft', 'App\Http\Controllers\ArticleController@reDraft');
 
-// Route::get('result', 'App\Http\Controllers\TestController@result');
 Route::get('result', 'App\Http\Controllers\ArticleController@search');
-
-Route::post('update', 'App\Http\Controllers\ArticleController@update');
 
 Route::post('close', 'App\Http\Controllers\ArticleController@close');
 

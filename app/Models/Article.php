@@ -13,7 +13,7 @@ class Article extends Model
 
     // public $timestamps = false;
     public $sortable = ['title', 'view', 'created_at'];
-
+    
     protected $fillable = ['title', 'body', 'author_id', 'open', 'category'];
     protected $dates = ['created_at', 'updated_at'];
 

@@ -52,7 +52,7 @@ class ArticleController extends Controller
         $title = preg_replace($pattern, '', $request->title);
         $body = preg_replace($pattern, '', $request->body);
 
-        $request->session()->put(['title' => $title, 'body' => $body, 'article_id' => $request->article_id]);
+        session(['title' => $title, 'body' => $body, 'article_id' => $request->article_id]);
 
         return redirect('/preview');
     }
@@ -65,16 +65,13 @@ class ArticleController extends Controller
     public function add(Request $request)
     {
         $article = Article::updateOrCreate(
-            ['id' => session()->get('article_id')],
+            ['id' => session('article_id')],
             [
-                'title' => $request->session()->get('title'),
-                'body' => $request->session()->get('body'),
+                'title' => session('title'),
+                'body' => session('body'),
                 'author_id' => Auth::id(),
                 'open' => 1,
                 'category' => $request->category,
-                // 更新時、カテゴリの初期値を新規時に選んだモノにしたい
-                // updated_at, created_atが同時かつ同じ値で記録される
-                // timestampsをfalseにするか？
             ]
         );
 
@@ -85,10 +82,10 @@ class ArticleController extends Controller
     public function draft(Request $request)
     {
         $article = Article::updateOrCreate(
-            ['id' => session()->get('article_id')],
+            ['id' => session('article_id')],
             [
-                'title' => $request->session()->get('title'),
-                'body' => $request->session()->get('body'),
+                'title' => session('title'),
+                'body' => session('body'),
                 'author_id' => Auth::id(),
                 'open' => 0,
                 'category' => $request->category,
