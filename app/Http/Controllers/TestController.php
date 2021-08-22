@@ -50,7 +50,7 @@ class TestController extends Controller
             $info = $checkInfo->getInfo;
         }
 
-        return view('layouts.mypage', ['user' => $user, 'info' => $info]);
+        return view('layouts.mypage', compact('user', 'info'));
     }
 
     public function userpage($userId)
