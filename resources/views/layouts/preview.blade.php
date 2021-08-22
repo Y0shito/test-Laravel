@@ -13,7 +13,7 @@
     @csrf
     <div class="d-flex">
         <div>
-            <h3>{{session()->get('title')}}</h3>
+            <h3>{{session('title')}}</h3>
         </div>
         <div class="ml-auto">
             <input class="btn btn-secondary btn-sm" type="submit" value="ブックマーク(--)" disabled>
@@ -25,7 +25,7 @@
         作成者：{{Auth::user()->name}}
     </p>
     <br>
-    <p>{!! nl2br(e(session()->get('body'))) !!}</p>
+    <p>{!! nl2br(e(session('body'))) !!}</p>
 
     <select name="category" class="custom-select mb-3">
         <option hidden>カテゴリ絞り込み</option>
