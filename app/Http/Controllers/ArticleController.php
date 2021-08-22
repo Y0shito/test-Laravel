@@ -14,23 +14,23 @@ class ArticleController extends Controller
 {
     public function show(Request $request)
     {
-        $items = Article::where('open', 1)->with('author')->sortable()->paginate(7);
-        return view('layouts.index', ['items' => $items]);
+        $items = Article::where('open', 1)->with('author')->sortable()->paginate(10);
+        return view('layouts.index', compact('items'));
     }
 
     public function myArticles(Request $request)
     {
-        $items = Article::where('author_id', Auth::user()->id)->paginate(5, ['*'], 'articles');
-        $bookmarks = Bookmark::where('user_id', Auth::user()->id)->paginate(5, ['*'], 'bookmarks');
+        $items = Article::where('author_id', Auth::id())->paginate(7, ['*'], 'articles');
+        $bookmarks = Bookmark::where('user_id', Auth::id())->paginate(7, ['*'], 'bookmarks');
         $info = Info::where('user_id', Auth::id())->first();
-        return view('layouts.mypage', ['items' => $items, 'bookmarks' => $bookmarks, 'info' => $info]);
+        return view('layouts.mypage', compact('items', 'bookmarks', 'info'));
     }
 
     public function article($id)
     {
         $article = Article::find($id);
         $article->increment('view');
-        return view('layouts.article', ['article' => $article]);
+        return view('layouts.article', compact('article'));
     }
 
     public function create()
@@ -41,7 +41,7 @@ class ArticleController extends Controller
     public function edit(Request $request)
     {
         $article = Article::find($request->id);
-        return view('layouts.create', ['article' => $article]);
+        return view('layouts.create', compact('article'));
     }
 
     public function toPreview(TestRequest $request)
@@ -52,7 +52,7 @@ class ArticleController extends Controller
         $title = preg_replace($pattern, '', $request->title);
         $body = preg_replace($pattern, '', $request->body);
 
-        session(['title' => $title, 'body' => $body, 'article_id' => $request->article_id]);
+        session(compact('title', 'body'), ['article_id' => $request->article_id]);
 
         return redirect('/preview');
     }
@@ -100,27 +100,19 @@ class ArticleController extends Controller
 
     public function open(Request $request)
     {
-        $article = Article::find($request->id);
-        $article->open = 1;
-        $article->save();
-
+        Article::find($request->id)->update(['open' => 1]);
         return redirect('/mypage');
     }
 
     public function close(Request $request)
     {
-        $article = Article::find($request->id);
-        $article->open = 0;
-        $article->save();
-
+        Article::find($request->id)->update(['open' => 0]);
         return redirect('/mypage');
     }
 
     public function delete(Request $request)
     {
-        $article = Article::find($request->id);
-        $article->delete();
-
+        Article::destroy($request->id);
         return redirect('/mypage');
     }
 
