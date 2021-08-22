@@ -19,7 +19,7 @@ class InfoController extends Controller
 
         $info = Info::updateOrCreate(
             ['user_id' => Auth::id()],
-            ['introduction' => $introduction, 'link_name' => $link_name, 'url' => $url]
+            compact(['introduction', 'link_name', 'url'])
         );
         return redirect('/mypage');
     }
