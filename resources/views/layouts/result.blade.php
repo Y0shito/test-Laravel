@@ -33,11 +33,29 @@
 @foreach($items as $item)
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">
-        <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
+        <h3 class="card-title"><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
+        <div class="ml-auto">
+            {{-- ログイン中、かつ自分以外が書いた記事ならtlue --}}
+            @if (Auth::check() AND !($item->author_id == Auth::id()))
+            {{-- 記事からBookmark引っ張り、その中に自分のidあればfslse --}}
+            <form method="POST">
+                @csrf
+                @if ($item->bookmarks()->where('user_id',Auth::id())->exists())
+                <button class="btn btn-primary btn-sm" type="submit" formaction="bmRemove" name="id"
+                    value="{{$item->id}}">ブックマーク中</button>
+                @else
+                <button class="btn btn-outline-primary btn-sm" type="submit" formaction="bmAdd" name="id"
+                    value="{{$item->id}}">ブックマーク</button>
+                @endif
+            </form>
+            @else
+            <button class="btn btn-secondary btn-sm" disabled>ブックマーク</button>
+            @endif
+        </div>
     </div>
 
     <div class="card-body">
-        <p class="card-text">{{$item->body}}</p>
+        <p class="card-text">{{mb_strimwidth($item->body, 0, 450, '...')}}</p>
     </div>
 
     <div class="card-footer">
@@ -48,11 +66,14 @@
             ? "更新日：{$item->updated_at->format('Y年m月d日')}"
             : "作成日：{$item->created_at->format('Y年m月d日')}"
             }}
-
+            ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
+            カテゴリ：{{$item->category}}&nbsp;
             作成者：{{$item->author->name}}&nbsp;
         </p>
     </div>
 </div>
 @endforeach
-{{$items->appends(request()->query())->links()}}
+<div class="d-flex justify-content-center">
+    {{$items->appends(request()->query())->links()}}
+</div>
 @endsection
