@@ -22,33 +22,28 @@
 <div class="card my-3">
     <div class="card-header d-inline-flex pb-0">
         <h3 class="card-title"><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
-        {{-- ログイン中、かつ自分以外が書いた記事ならtlue --}}
         <div class="ml-auto">
-            @if (Auth::check() AND !($item->author_id == Auth::user()->id))
-            @if ($item->bookmarks()->where('user_id',Auth::user()->id)->exists())
-            {{-- 記事からBookmark引っ張り、その中に自分のidあれば「外す」ボタン --}}
-            <form action="bmRemove" method="POST">
+            {{-- ログイン中、かつ自分以外が書いた記事ならtlue --}}
+            @if (Auth::check() AND !($item->author_id == Auth::id()))
+            {{-- 記事からBookmark引っ張り、その中に自分のidあればfslse --}}
+            <form method="POST">
                 @csrf
-                <input class="btn btn-primary btn-sm" type="submit" value="ブックマーク中({{$item->bookmarks->count()}})">
-                <input type="hidden" name="id" value="{{$item->id}}">
+                @if ($item->bookmarks()->where('user_id',Auth::id())->exists())
+                    <button class="btn btn-primary btn-sm" type="submit" formaction="bmRemove" name="id"
+                    value="{{$item->id}}">ブックマーク中</button>
+                @else
+                    <button class="btn btn-outline-primary btn-sm" type="submit" formaction="bmAdd" name="id"
+                    value="{{$item->id}}">ブックマーク</button>
+                @endif
             </form>
             @else
-            <form action="bmAdd" method="POST">
-                @csrf
-                <input class="btn btn-outline-primary btn-sm" type="submit"
-                    value="ブックマークする({{$item->bookmarks->count()}})">
-                <input type="hidden" name="id" value="{{$item->id}}">
-            </form>
-            @endif
-            @else
-            <input class="btn btn-secondary btn-sm" type="submit" value="ブックマーク({{$item->bookmarks->count()}})"
-                disabled>
+            <button class="btn btn-secondary btn-sm" disabled>ブックマーク</button>
             @endif
         </div>
     </div>
 
     <div class="card-body">
-        <p class="card-text">{{$item->body}}</p>
+        <p class="card-text">{{mb_strimwidth($item->body, 0, 450, '...')}}</p>
     </div>
 
     <div class="card-footer">
@@ -58,8 +53,9 @@
             {{ isset($item->updated_at)
             ? "更新日：{$item->updated_at->format('Y年m月d日')}"
             : "作成日：{$item->created_at->format('Y年m月d日')}"
-            }}
+            }}&nbsp;
 
+            ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
             カテゴリ：{{$item->category}}&nbsp;
             作成者：<a href="user/{{$item->author->id}}">{{$item->author->name}}</a>
         </p>
