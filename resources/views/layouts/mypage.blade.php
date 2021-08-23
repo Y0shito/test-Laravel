@@ -21,13 +21,13 @@
     <ul class="list-group list-group-flush">
         @if (!empty($info))
         {{-- 何も入力されていない場合、NULLは無表示 --}}
-            @if (!empty($info->introduction))
-                <li class="list-group-item">{{$info->introduction}}</li>
-            @endif
+        @if (!empty($info->introduction))
+        <li class="list-group-item">{{$info->introduction}}</li>
+        @endif
 
-            @if (!empty($info->link_name))
-                <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
-            @endif
+        @if (!empty($info->link_name))
+        <li class="list-group-item"><a href="{{$info->url}}">{{$info->link_name}}</a></li>
+        @endif
         @endif
 
         <li class="list-group-item">
@@ -70,36 +70,28 @@
             <div class="card-header d-inline-flex pb-0">
                 <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
                 <div class="ml-auto d-inline-flex">
-                    <form action="edit" method="POST">
+                    <form method="POST">
                         @csrf
-                        <input type="hidden" name="id" value="{{$item->id}}">
-                        <input class="btn btn-primary btn-sm" type="submit" value="編集">
-                    </form>
 
-                    @if($item->open == 1)
-                    <form action="close" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$item->id}}">
-                        <input class="btn btn-secondary btn-sm" type="submit" value="非公開にする">
-                    </form>
-                    @else
-                    <form action="open" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$item->id}}">
-                        <input class="btn btn-success btn-sm" type="submit" value="公開する">
-                    </form>
-                    @endif
+                        @if ($item->open == 1)
+                            <button class="btn btn-secondary btn-sm" type="submit" formaction="close" name="id"
+                            value="{{$item->id}}">非公開にする</button>
+                        @else
+                            <button class="btn btn-success btn-sm" type="submit" formaction="open" name="id"
+                            value="{{$item->id}}">公開する</button>
+                        @endif
 
-                    <form action="delete" method="POST">
-                        @csrf
-                        <input type="hidden" name="id" value="{{$item->id}}">
-                        <input class="btn btn-danger btn-sm" type="submit" value="削除">
+                        <button class="btn btn-primary btn-sm" type="submit" formaction="edit" name="id"
+                            value="{{$item->id}}">編集</button>
+
+                        <button class="btn btn-danger btn-sm" type="submit" formaction="delete" name="id"
+                            value="{{$item->id}}">削除</button>
                     </form>
                 </div>
             </div>
 
             <div class="card-body">
-                <p class="card-text">{{$item->body}}</p>
+                <p class="card-text">{{mb_strimwidth($item->body, 0, 450, '...')}}</p>
             </div>
 
             <div class="card-footer">
