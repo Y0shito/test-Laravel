@@ -74,10 +74,10 @@
                         @csrf
 
                         @if ($item->open == 1)
-                            <button class="btn btn-secondary btn-sm" type="submit" formaction="close" name="id"
+                        <button class="btn btn-secondary btn-sm" type="submit" formaction="close" name="id"
                             value="{{$item->id}}">非公開にする</button>
                         @else
-                            <button class="btn btn-success btn-sm" type="submit" formaction="open" name="id"
+                        <button class="btn btn-success btn-sm" type="submit" formaction="open" name="id"
                             value="{{$item->id}}">公開する</button>
                         @endif
 
@@ -161,7 +161,7 @@
         </ul>
     </div>
 
-    {{-- ここからプロフィール設定 --}}
+    {{-- ここからプロフィール設定など --}}
     <div class="tab-pane fade" id="pills-config" role="tabpanel">
         <form action="update_info" method="post">
             @csrf
@@ -189,6 +189,11 @@
                 </div>
             </div>
         </form>
+        <div class="alert alert-danger">
+            <form action="userDelete" method="GET">
+                <button class="btn btn-danger btn-sm" type="submit">退会する</button>
+            </form>
+        </div>
     </div>
 </div>
 

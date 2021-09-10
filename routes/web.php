@@ -3,12 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('auth', 'App\Http\Controllers\TestController@auth');
 Route::post('auth', 'App\Http\Controllers\TestController@postAuth');
+Route::get('userDelete', 'App\Http\Controllers\TestController@userDelete');
 
 Route::get('mypage', 'App\Http\Controllers\TestController@mypage')->middleware('auth');
 Route::post('mypage', 'App\Http\Controllers\TestController@logout')->middleware('auth');
@@ -27,16 +24,16 @@ Route::post('bmRemove', 'App\Http\Controllers\BookmarkController@bmRemove');
 
 Route::get('article/id/{id}', 'App\Http\Controllers\ArticleController@article');
 
-Route::get('create', 'App\Http\Controllers\ArticleController@create');
-Route::post('create', 'App\Http\Controllers\ArticleController@toPreview');
+Route::get('create', 'App\Http\Controllers\ArticleController@create')->middleware('auth');
+Route::post('create', 'App\Http\Controllers\ArticleController@toPreview')->middleware('auth');
 
-Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview');
+Route::get('preview', 'App\Http\Controllers\ArticleController@fromPreview')->middleware('auth');
 
 Route::post('add', 'App\Http\Controllers\ArticleController@add');
 Route::post('draft', 'App\Http\Controllers\ArticleController@draft');
 
-Route::post('edit', 'App\Http\Controllers\ArticleController@edit');
-Route::post('re_draft', 'App\Http\Controllers\ArticleController@reDraft');
+Route::post('edit', 'App\Http\Controllers\ArticleController@edit')->middleware('auth');
+Route::post('re_draft', 'App\Http\Controllers\ArticleController@reDraft')->middleware('auth');
 
 Route::get('result', 'App\Http\Controllers\ArticleController@search');
 
@@ -49,8 +46,6 @@ Route::post('delete', 'App\Http\Controllers\ArticleController@delete');
 Route::post('update_info', 'App\Http\Controllers\InfoController@updateInfo');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 //Twitter
 Route::get('login/twitter','App\Http\Controllers\TestController@getAuth');

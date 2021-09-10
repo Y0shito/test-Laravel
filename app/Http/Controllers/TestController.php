@@ -41,6 +41,11 @@ class TestController extends Controller
         return redirect('/index');
     }
 
+    public function userDelete(){
+        User::destroy(Auth::id());
+        return redirect('/index');
+    }
+
     public function mypage()
     {
         $user = Auth::user();
