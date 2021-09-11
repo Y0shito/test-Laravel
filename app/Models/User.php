@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Article;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -41,9 +42,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user) {
+            $info = Info::updateOrCreate(
+                ['user_id' => $user->id],
+                ['introduction' => '', 'link_name' => '', 'url' => '']
+            );
+        });
+
+        static::deleting(function ($user) {
+            $user->articles()->delete();
+            $user->getBookmarks()->delete();
+            $user->getInfo()->delete();
+            $user->getFollows()->detach();
+            $user->getFollowers()->detach();
+        });
+    }
+
     public function articles()
     {
         return $this->hasMany('App\Models\Article', 'author_id');
+    }
+
+    public function getBookmarks()
+    {
+        return $this->hasMany('App\Models\Bookmark', 'user_id');
     }
 
     public function getFollows()
@@ -56,8 +82,8 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\User', 'follow', 'follow_id', 'user_id');
     }
 
-    Public function getInfo()
+    public function getInfo()
     {
-      return $this->hasOne('App\Models\Info');
+        return $this->hasOne('App\Models\Info');
     }
 }
