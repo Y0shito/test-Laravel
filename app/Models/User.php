@@ -54,8 +54,9 @@ class User extends Authenticatable
         });
 
         static::deleting(function ($user) {
+            $user->getBookmarked()->delete(); // 自身の記事にbmされているのを削除
+            $user->getBookmarks()->delete(); //自身のブックマークを削除
             $user->articles()->delete();
-            $user->getBookmarks()->delete();
             $user->getInfo()->delete();
             $user->getFollows()->detach();
             $user->getFollowers()->detach();
@@ -70,6 +71,18 @@ class User extends Authenticatable
     public function getBookmarks()
     {
         return $this->hasMany('App\Models\Bookmark', 'user_id');
+    }
+
+    public function getBookmarked()
+    {
+        return $this->hasManyThrough(
+            'App\Models\Bookmark',
+            'App\Models\Article',
+            'author_id',
+            'article_id',
+            'id',
+            'id'
+        );
     }
 
     public function getFollows()
