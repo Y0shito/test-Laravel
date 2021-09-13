@@ -33,7 +33,8 @@
         <li class="list-group-item">
             総記事数：{{count(Auth::user()->articles)}}&nbsp;
             総閲覧数：{{Auth::user()->articles()->sum('view')}}&nbsp;
-            フォロワー数：{{$getFollowers}}
+            フォロー数：{{count($follows)}}&nbsp;
+            フォロワー数：{{count($followers)}}
         </li>
     </ul>
 </div>
@@ -55,7 +56,11 @@
             aria-controls="pills-follows" aria-selected="false">フォロー</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" id="pills-follows-tab" data-toggle="pill" href="#pills-config" role="tab"
+        <a class="nav-link" id="pills-followers-tab" data-toggle="pill" href="#pills-followers" role="tab"
+            aria-controls="pills-followers" aria-selected="false">フォロワー</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="pills-config-tab" data-toggle="pill" href="#pills-config" role="tab"
             aria-controls="pills-config" aria-selected="false">設定</a>
     </li>
 </ul>
@@ -153,12 +158,47 @@
 
     {{-- ここからフォローした人 --}}
     <div class="tab-pane fade" id="pills-follows" role="tabpanel">
-        <h3>フォローしている人：{{count($getFollows)}}件</h3>
-        <ul class="list-gloup">
-            @foreach ($getFollows as $item)
-            <li class="list-group-item">{{$item->name}}</li>
-            @endforeach
-        </ul>
+        <h3>フォローしている人：{{count($follows)}}件</h3>
+        <table class="table table-striped table-borderless">
+            <tbody>
+                <form action="/unfollow" method="POST">
+                    @csrf
+                    @foreach($follows as $item)
+                    <tr>
+                        <td><a href="user/{{$item->id}}">{{$item->name}}</a></td>
+                        <td><button class="btn btn-danger btn-sm" type="submit" name="id"
+                                value="{{$item->id}}">フォローを外す</button></td>
+                    </tr>
+                    @endforeach
+                </form>
+            </tbody>
+        </table>
+    </div>
+
+    {{-- ここからフォローしてくれている人 --}}
+    <div class="tab-pane fade" id="pills-followers" role="tabpanel">
+        <h3>フォロワー数：{{count($followers)}}件</h3>
+        <table class="table table-striped table-borderless">
+            <tbody>
+                {{-- <form method="POST">
+                    @csrf
+                    @foreach($followers as $item)
+                    <tr>
+                        <td><a href="user/{{$item->id}}">{{$item->name}}</a></td>
+                        <td>
+                            @if (Auth::user()->getFollowers()->where('user_id', Auth::id())->exists())
+                            <button class="btn btn-danger btn-sm" type="submit" formaction="/unfollow" name="id"
+                                value="{{$item->id}}">フォローを外す</button>
+                            @else
+                            <button class="btn btn-outline-primary btn-sm" type="submit" formaction="/follow" name="id"
+                                value="{{$item->id}}">フォロー</button>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </form> --}}
+            </tbody>
+        </table>
     </div>
 
     {{-- ここからプロフィール設定など --}}
@@ -191,7 +231,8 @@
         </form>
         <div class="alert alert-danger">
             <form name="user_delete" action="userDelete" method="GET">
-                <button class="btn btn-danger btn-sm" type="submit" onClick="user_delete(event);return false;">退会する</button>
+                <button class="btn btn-danger btn-sm" type="submit"
+                    onClick="user_delete(event);return false;">退会する</button>
             </form>
         </div>
     </div>

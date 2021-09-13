@@ -6,6 +6,7 @@ use App\Http\Requests\TestRequest;
 use App\Models\Article;
 use App\Models\Bookmark;
 use App\Models\Info;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,9 @@ class ArticleController extends Controller
         $items = Article::where('author_id', Auth::id())->paginate(7, ['*'], 'articles');
         $bookmarks = Bookmark::where('user_id', Auth::id())->paginate(7, ['*'], 'bookmarks');
         $info = Info::where('user_id', Auth::id())->first();
-        return view('layouts.mypage', compact('items', 'bookmarks', 'info'));
+        $follows = User::find(Auth::id())->getFollows()->get();
+        $followers = User::find(Auth::id())->getFollowers()->get();
+        return view('layouts.mypage', compact('items', 'bookmarks', 'info', 'follows', 'followers'));
     }
 
     public function article($id)

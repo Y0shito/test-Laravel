@@ -78,21 +78,6 @@ class TestController extends Controller
         return back();
     }
 
-    // public function preview()
-    // {
-    //     return view('layouts.preview');
-    // }
-
-    // public function article()
-    // {
-    //     return view('layouts.article');
-    // }
-
-    // public function result()
-    // {
-    //     return view('layouts.result');
-    // }
-
     //ここからTwitter認証
     public function getAuth()
     {
