@@ -17,7 +17,7 @@
     <div class="form-group">
         タイトル
         <input type="text" class="form-control" name="title" placeholder="5文字以上、30文字以下で入力してください"
-        value="{{ $errors->has('*') ? old('title') : ($article['title'] ?? '' )}}">
+            value="{{ $errors->has('*') ? old('title') : ($article['title'] ?? '' )}}">
     </div>
 
     <div class="form-group">
@@ -30,9 +30,11 @@
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
+            <input class="btn btn-secondary btn-lg" type="submit" name="draft" formaction="draft" value="下書きへ保存">
             <input class="btn btn-primary btn-lg" type="submit" value="プレビュー">
         </div>
     </div>
 
 </form>
+{{-- <script src="{{ asset('/js/create.js')}}"></script> --}}
 @endsection

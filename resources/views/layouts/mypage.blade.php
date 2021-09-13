@@ -70,7 +70,7 @@
             <div class="card-header d-inline-flex pb-0">
                 <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
                 <div class="ml-auto d-inline-flex">
-                    <form method="POST">
+                    <form name="article_options" method="POST">
                         @csrf
 
                         @if ($item->open == 1)
@@ -85,7 +85,7 @@
                             value="{{$item->id}}">編集</button>
 
                         <button class="btn btn-danger btn-sm" type="submit" formaction="delete" name="id"
-                            value="{{$item->id}}">削除</button>
+                            value="{{$item->id}}" onClick="delete_confirm(event);return false;">削除</button>
                     </form>
                 </div>
             </div>
@@ -190,11 +190,11 @@
             </div>
         </form>
         <div class="alert alert-danger">
-            <form action="userDelete" method="GET">
-                <button class="btn btn-danger btn-sm" type="submit">退会する</button>
+            <form name="user_delete" action="userDelete" method="GET">
+                <button class="btn btn-danger btn-sm" type="submit" onClick="user_delete(event);return false;">退会する</button>
             </form>
         </div>
     </div>
 </div>
-
+<script src="{{ asset('/js/mypage.js')}}"></script>
 @endsection
