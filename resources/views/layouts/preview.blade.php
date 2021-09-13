@@ -9,7 +9,7 @@
     記事はまだ投稿されていません。記事内容をご確認ください
 </div>
 
-<form method="post">
+<form method="post" onsubmit="submitted=true; this.querySelector('#add').disabled=true;">
     @csrf
     <div class="d-flex">
         <div>
@@ -30,14 +30,14 @@
     <select name="category" class="custom-select mb-3">
         <option hidden>カテゴリ絞り込み</option>
         @foreach (config('const.category') as $key => $value)
-            <option value="{{$key}}">{{$value}}</option>
+        <option value="{{$key}}">{{$value}}</option>
         @endforeach
     </select>
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
             <input class="btn btn-secondary btn-lg" type="submit" name="draft" formaction="draft" value="下書きへ保存">
-            <input class="btn btn-primary btn-lg" type="submit" name="add" formaction="add" value="投稿">
+            <input class="btn btn-primary btn-lg" type="submit" id="add" name="add" formaction="add" value="投稿">
         </div>
     </div>
 
