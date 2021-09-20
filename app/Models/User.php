@@ -80,8 +80,6 @@ class User extends Authenticatable
             'App\Models\Article',
             'author_id',
             'article_id',
-            'id',
-            'id'
         );
     }
 

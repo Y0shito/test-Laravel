@@ -36,7 +36,7 @@
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
-            <input class="btn btn-secondary btn-lg" type="submit" name="draft" formaction="draft" value="下書きへ保存">
+            <input class="btn btn-secondary btn-lg" type="submit" id="draft" name="draft" formaction="draft" value="下書きへ保存">
             <input class="btn btn-primary btn-lg" type="submit" id="add" name="add" formaction="add" value="投稿">
         </div>
     </div>

@@ -21,11 +21,13 @@ class ArticleController extends Controller
 
     public function myArticles(Request $request)
     {
-        $items = Article::where('author_id', Auth::id())->paginate(7, ['*'], 'articles');
-        $bookmarks = Bookmark::where('user_id', Auth::id())->paginate(7, ['*'], 'bookmarks');
-        $info = Info::where('user_id', Auth::id())->first();
-        $follows = User::find(Auth::id())->getFollows()->get();
-        $followers = User::find(Auth::id())->getFollowers()->get();
+        $user = Auth::id();
+
+        $items = Article::where('author_id', $user)->paginate(7, ['*'], 'articles');
+        $bookmarks = Bookmark::where('user_id', $user)->paginate(7, ['*'], 'bookmarks');
+        $info = Info::where('user_id', $user)->first();
+        $follows = User::find($user)->getFollows()->get();
+        $followers = User::find($user)->getFollowers()->get();
         return view('layouts.mypage', compact('items', 'bookmarks', 'info', 'follows', 'followers'));
     }
 
@@ -92,14 +94,15 @@ class ArticleController extends Controller
                 'author_id' => Auth::id(),
                 'open' => 0,
                 'category' => $request->category,
-                // updated_at, created_atが同時かつ同じ値で記録される
-                // timestampsをfalseにするか？
             ]
         );
 
         $request->session()->forget(['title', 'body', 'article_id']);
         return redirect('/mypage');
     }
+
+    // add,draftでcreated_at,updated_atが同時かつ同じ値で記録される
+    // 新規投稿時はcreated_at,更新時はupdated_tを処理したい
 
     public function open(Request $request)
     {

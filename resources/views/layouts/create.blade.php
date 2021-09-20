@@ -12,7 +12,7 @@
 </div>
 @endif
 
-<form action="create" method="post">
+<form action="create" method="POST">
     @csrf
     <div class="form-group">
         タイトル
