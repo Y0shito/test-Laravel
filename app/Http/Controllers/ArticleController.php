@@ -26,8 +26,8 @@ class ArticleController extends Controller
         $items = Article::where('author_id', $user)->paginate(7, ['*'], 'articles');
         $bookmarks = Bookmark::where('user_id', $user)->paginate(7, ['*'], 'bookmarks');
         $info = Info::where('user_id', $user)->first();
-        $follows = User::find($user)->getFollows()->get();
-        $followers = User::find($user)->getFollowers()->get();
+        $follows = User::find($user)->findFollows()->get();
+        $followers = User::find($user)->findFollowers()->get();
         return view('layouts.mypage', compact('items', 'bookmarks', 'info', 'follows', 'followers'));
     }
 
