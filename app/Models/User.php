@@ -58,8 +58,8 @@ class User extends Authenticatable
             $user->getBookmarks()->delete(); //自身のブックマークを削除
             $user->articles()->delete();
             $user->getInfo()->delete();
-            $user->findFollows()->detach();
-            $user->findFollowers()->detach();
+            $user->getFollows()->detach();
+            $user->getFollowers()->detach();
         });
     }
 
@@ -83,12 +83,12 @@ class User extends Authenticatable
         );
     }
 
-    public function findFollows()
+    public function getFollows()
     {
         return $this->belongsToMany('App\Models\User', 'follow', 'user_id', 'follow_id');
     }
 
-    public function findFollowers()
+    public function getFollowers()
     {
         return $this->belongsToMany('App\Models\User', 'follow', 'follow_id', 'user_id');
     }
