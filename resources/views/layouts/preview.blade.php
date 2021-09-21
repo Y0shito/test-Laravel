@@ -9,7 +9,7 @@
     記事はまだ投稿されていません。記事内容をご確認ください
 </div>
 
-<form method="post" onsubmit="submitted=true; this.querySelector('#add').disabled=true;">
+<form method="POST">
     @csrf
     <div class="d-flex">
         <div>
@@ -34,11 +34,10 @@
         @endforeach
     </select>
 
-    <div class="d-flex justify-content-center mb-3">
-        <div class="button">
-            <input class="btn btn-secondary btn-lg" type="submit" id="draft" name="draft" formaction="draft" value="下書きへ保存">
-            <input class="btn btn-primary btn-lg" type="submit" id="add" name="add" formaction="add" value="投稿">
-        </div>
+
+    <div class="d-flex justify-content-center m-3">
+        <button class="btn btn-secondary btn-lg" id="button" type="submit" formaction="draft">下書きへ保存</button>
+        <button class="btn btn-primary btn-lg" type="submit" formaction="add">投稿</button>
     </div>
 
 </form>

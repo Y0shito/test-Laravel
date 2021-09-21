@@ -36,5 +36,4 @@
     </div>
 
 </form>
-{{-- <script src="{{ asset('/js/create.js')}}"></script> --}}
 @endsection

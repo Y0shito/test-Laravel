@@ -90,7 +90,7 @@
                             value="{{$item->id}}">編集</button>
 
                         <button class="btn btn-danger btn-sm" type="submit" formaction="delete" name="id"
-                            value="{{$item->id}}" onClick="delete_confirm(event);return false;">削除</button>
+                            value="{{$item->id}}">削除</button>
                     </form>
                 </div>
             </div>
@@ -237,5 +237,4 @@
         </div>
     </div>
 </div>
-<script src="{{ asset('/js/mypage.js')}}"></script>
 @endsection
