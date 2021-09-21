@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\PublicStatus;
 use App\Http\Requests\TestRequest;
 use App\Models\Article;
 use App\Models\Bookmark;
@@ -15,7 +16,7 @@ class ArticleController extends Controller
 {
     public function show(Request $request)
     {
-        $items = Article::where('open', 1)->with('author')->sortable()->paginate(10);
+        $items = Article::where('open', PublicStatus::OPEN)->with('author')->sortable()->paginate(10);
         return view('layouts.index', compact('items'));
     }
 
@@ -75,7 +76,7 @@ class ArticleController extends Controller
                 'title' => session('title'),
                 'body' => session('body'),
                 'author_id' => Auth::id(),
-                'open' => 1,
+                'open' => PublicStatus::OPEN,
                 'category' => $request->category,
             ]
         );
@@ -92,7 +93,7 @@ class ArticleController extends Controller
                 'title' => session('title'),
                 'body' => session('body'),
                 'author_id' => Auth::id(),
-                'open' => 0,
+                'open' => PublicStatus::CLOSE,
                 'category' => $request->category,
             ]
         );
@@ -106,13 +107,13 @@ class ArticleController extends Controller
 
     public function open(Request $request)
     {
-        Article::find($request->id)->update(['open' => 1]);
+        Article::find($request->id)->update(['open' => PublicStatus::OPEN]);
         return redirect('/mypage');
     }
 
     public function close(Request $request)
     {
-        Article::find($request->id)->update(['open' => 0]);
+        Article::find($request->id)->update(['open' => PublicStatus::CLOSE]);
         return redirect('/mypage');
     }
 
@@ -124,7 +125,7 @@ class ArticleController extends Controller
 
     public function search(Request $request)
     {
-        $query = Article::where('open', 1);
+        $query = Article::where('open', PublicStatus::OPEN);
         $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 5, PREG_SPLIT_NO_EMPTY);
         $category = $request->category;
 
