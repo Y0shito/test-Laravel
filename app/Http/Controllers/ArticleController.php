@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\{Enums\PublicStatus, Http\Requests\TestRequest};
 use App\Models\{Article, Bookmark, Info, User};
-use Illuminate\{Http\Request, Support\Facades\Auth};
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\DB};
+
 
 class ArticleController extends Controller
 {
@@ -64,36 +65,50 @@ class ArticleController extends Controller
 
     public function add(Request $request)
     {
-        $article = Article::updateOrCreate(
-            ['id' => session('article_id')],
-            [
-                'title' => session('title'),
-                'body' => session('body'),
-                'author_id' => Auth::id(),
-                'open' => PublicStatus::OPEN,
-                'category' => $request->category,
-            ]
-        );
+        DB::beginTransaction();
+        try {
+            $article = Article::updateOrCreate(
+                ['id' => session('article_id')],
+                [
+                    'title' => session('title'),
+                    'body' => session('body'),
+                    'author_id' => Auth::id(),
+                    'open' => PublicStatus::OPEN,
+                    'category' => $request->category,
+                ]
+            );
 
-        $request->session()->forget(['title', 'body', 'article_id']);
-        return redirect('/mypage');
+            DB::commit();
+            $request->session()->forget(['title', 'body', 'article_id']);
+            return redirect('/mypage');
+        } catch (\Exception $e) {
+            // 本来はここに例外時の処理を書く
+            DB::rollback();
+        }
     }
 
     public function draft(Request $request)
     {
-        $article = Article::updateOrCreate(
-            ['id' => session('article_id')],
-            [
-                'title' => session('title'),
-                'body' => session('body'),
-                'author_id' => Auth::id(),
-                'open' => PublicStatus::CLOSE,
-                'category' => $request->category,
-            ]
-        );
+        DB::beginTransaction();
+        try {
+            $article = Article::updateOrCreate(
+                ['id' => session('article_id')],
+                [
+                    'title' => session('title'),
+                    'body' => session('body'),
+                    'author_id' => Auth::id(),
+                    'open' => PublicStatus::CLOSE,
+                    'category' => $request->category,
+                ]
+            );
 
-        $request->session()->forget(['title', 'body', 'article_id']);
-        return redirect('/mypage');
+            DB::commit();
+            $request->session()->forget(['title', 'body', 'article_id']);
+            return redirect('/mypage');
+        } catch (\Exception $e) {
+            // 本来はここに例外時の処理を書く
+            DB::rollback();
+        }
     }
 
     // add,draftでcreated_at,updated_atが同時かつ同じ値で記録される
