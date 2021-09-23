@@ -65,7 +65,7 @@ class ArticleController extends Controller
 
     public function add(Request $request)
     {
-        DB::beginTransaction();
+        DB::beginTransaction(); //トランザクションの開始
         try {
             $article = Article::updateOrCreate(
                 ['id' => session('article_id')],
@@ -78,12 +78,12 @@ class ArticleController extends Controller
                 ]
             );
 
-            DB::commit();
+            DB::commit(); //データの挿入
             $request->session()->forget(['title', 'body', 'article_id']);
             return redirect('/mypage');
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { //例外発生時
             // 本来はここに例外時の処理を書く
-            DB::rollback();
+            DB::rollback(); //適用前に戻す
         }
     }
 
