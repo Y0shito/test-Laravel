@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\{Enums\PublicStatus, Http\Requests\TestRequest};
+use App\{Enums\PublicStatus, Http\Requests\TestRequest, Traits\Spaceremoval};
 use App\Models\{Article, Bookmark, Info, User};
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\DB};
 
 
 class ArticleController extends Controller
 {
+    use Spaceremoval;
+
     public function show(Request $request)
     {
         $items = Article::openArticles()->with('author')->sortable()->paginate(10);
@@ -47,11 +49,8 @@ class ArticleController extends Controller
 
     public function toPreview(TestRequest $request)
     {
-        // 文字列の前後にある空白、改行等の削除
-        $pattern = '/\A[\p{Cc}\p{Cf}\p{Z}]++|[\p{Cc}\p{Cf}\p{Z}]++\z/u';
-
-        $title = preg_replace($pattern, '', $request->title);
-        $body = preg_replace($pattern, '', $request->body);
+        $title = ArticleController::spaceRemoval($request->title);
+        $body = ArticleController::spaceRemoval($request->body);
 
         session(compact('title', 'body'), ['article_id' => $request->article_id]);
 
