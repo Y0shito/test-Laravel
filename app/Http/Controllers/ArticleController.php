@@ -2,15 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\PublicStatus;
-use App\Http\Requests\TestRequest;
-use App\Models\Article;
-use App\Models\Bookmark;
-use App\Models\Info;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\{Enums\PublicStatus, Http\Requests\TestRequest};
+use App\Models\{Article, Bookmark, Info, User};
+use Illuminate\{Http\Request, Support\Facades\Auth};
 
 class ArticleController extends Controller
 {

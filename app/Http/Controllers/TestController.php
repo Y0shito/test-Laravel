@@ -3,13 +3,8 @@
 namespace App\Http\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
-use App\Models\Info;
-use App\Models\Article;
-use App\Enums\PublicStatus;
-use Illuminate\Http\Request;
-use App\Http\Requests\TestRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Models\{Article, Info, User};
+use Illuminate\{Http\Request, Support\Facades\Auth};
 
 class TestController extends Controller
 {
@@ -42,7 +37,8 @@ class TestController extends Controller
         return redirect('/index');
     }
 
-    public function userDelete(){
+    public function userDelete()
+    {
         User::destroy(Auth::id());
         return redirect('/index');
     }

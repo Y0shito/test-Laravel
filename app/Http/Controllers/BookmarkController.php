@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Bookmark;
-use Illuminate\Http\Request;
-use App\Http\Requests\TestRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\{Http\Request, Support\Facades\Auth};
 
 class BookmarkController extends Controller
 {
@@ -24,8 +21,8 @@ class BookmarkController extends Controller
     public function bmRemove(Request $request)
     {
         $bookmark = Bookmark::where('article_id', $request->id)
-        ->where('user_id', Auth::id())
-        ->delete();
+            ->where('user_id', Auth::id())
+            ->delete();
 
         return back();
     }
