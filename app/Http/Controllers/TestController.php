@@ -6,6 +6,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Info;
 use App\Models\Article;
+use App\Enums\PublicStatus;
 use Illuminate\Http\Request;
 use App\Http\Requests\TestRequest;
 use Illuminate\Support\Facades\Auth;
@@ -60,7 +61,7 @@ class TestController extends Controller
 
     public function userpage($userId)
     {
-        $articles = Article::where('open', 1)->where('author_id', $userId)->get();
+        $articles = Article::openArticles()->where('author_id', $userId)->get();
         $user = User::find($userId);
         $info = Info::where('user_id', $userId)->first();
         return view('layouts.userpage', compact('articles', 'user', 'info'));

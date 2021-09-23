@@ -16,7 +16,7 @@ class ArticleController extends Controller
 {
     public function show(Request $request)
     {
-        $items = Article::where('open', PublicStatus::OPEN)->with('author')->sortable()->paginate(10);
+        $items = Article::openArticles()->with('author')->sortable()->paginate(10);
         return view('layouts.index', compact('items'));
     }
 
@@ -27,8 +27,8 @@ class ArticleController extends Controller
         $items = Article::where('author_id', $user)->paginate(7, ['*'], 'articles');
         $bookmarks = Bookmark::where('user_id', $user)->paginate(7, ['*'], 'bookmarks');
         $info = Info::where('user_id', $user)->first();
-        $follows = User::find($user)->getFollows()->get();
-        $followers = User::find($user)->getFollowers()->get();
+        $follows = User::find($user)->getFollows()->get(); //get被りしているのを直す
+        $followers = User::find($user)->getFollowers()->get(); //get被りしているのを直す
         return view('layouts.mypage', compact('items', 'bookmarks', 'info', 'follows', 'followers'));
     }
 
@@ -125,7 +125,7 @@ class ArticleController extends Controller
 
     public function search(Request $request)
     {
-        $query = Article::where('open', PublicStatus::OPEN);
+        $query = Article::openArticles();
         $words = preg_split('/[\p{Z}\p{Cc}]++/u', $request->search, 5, PREG_SPLIT_NO_EMPTY);
         $category = $request->category;
 

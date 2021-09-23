@@ -41,6 +41,7 @@ CRUD
 →ページ開いてデフォルトで閲覧数がdescに並んでいるのであって、「閲覧数」ボタンの働きはascのまま
 
 ・カテゴリ、open(0/1)の定数をEnum化
+→OK
 
 ・Articleのopen/closeをスコープ化
 

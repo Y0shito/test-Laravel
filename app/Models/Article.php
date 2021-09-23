@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PublicStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
@@ -25,5 +26,10 @@ class Article extends Model
     public function bookmarks()
     {
         return $this->hasMany('App\Models\Bookmark');
+    }
+
+    public function scopeOpenArticles($query)
+    {
+        $query->where('open', PublicStatus::OPEN);
     }
 }
