@@ -6,8 +6,8 @@ use BenSampo\Enum\Enum;
 
 final class PublicStatus extends Enum
 {
-    const CLOSE = 0;
-    const OPEN = 1;
+    public const CLOSE = 0;
+    public const OPEN = 1;
 
     // public static function getDescription($value): string
     // {

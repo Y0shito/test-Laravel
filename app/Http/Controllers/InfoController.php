@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\{Models\Info, Traits\Spaceremoval};
-use Illuminate\{Http\Request, Support\Facades\Auth};
+use App\Models\Info;
+use App\Traits\Spaceremoval;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InfoController extends Controller
 {

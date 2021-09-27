@@ -17,8 +17,8 @@ class CreateInfoTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->text('introduction')->nullable();
-            $table->string('link_name',50)->nullable();
-            $table->string('url',2000)->nullable();
+            $table->string('link_name', 50)->nullable();
+            $table->string('url', 2000)->nullable();
         });
     }
 

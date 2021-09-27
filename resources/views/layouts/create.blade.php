@@ -12,7 +12,7 @@
 </div>
 @endif
 
-<form action="create" method="POST">
+<form method="POST">
     @csrf
     <div class="form-group">
         タイトル
@@ -30,10 +30,11 @@
 
     <div class="d-flex justify-content-center mb-3">
         <div class="button">
-            <input class="btn btn-secondary btn-lg" type="submit" name="draft" formaction="draft" value="下書きへ保存">
-            <input class="btn btn-primary btn-lg" type="submit" value="プレビュー">
+            <input class="btn btn-secondary btn-lg" type="submit" formaction="draft" value="下書きへ保存">
+            <input class="btn btn-primary btn-lg" type="submit" formaction="create" onsubmit="to_preview(this)" value="プレビュー">
         </div>
     </div>
 
 </form>
+<script src="{{asset('/js/create.js')}}"></script>
 @endsection

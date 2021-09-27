@@ -45,10 +45,10 @@ CRUD
 →食い違いが起こると困る箇所（1度に複数テーブルまたはカラムの変更が発生する場合）で行えばいい？
 (CRUD発生する箇所全て？変更レコードが1件のみでも必要か？)
 
-
 ・トレイト
 よく使うパターンなどをトレイトし使いまわしが出来るようにする
 →実装完了、ただしcontroller::taritの形での呼び出しだが正解？
+→trait::traitの形で動く
 
 ・メソッドの名前被り
 ここではgetfollowsとget()メソッド直す
@@ -59,6 +59,7 @@ CRUD
 
 ・Userのboot()のInfoテーブル自動作成部分
 →Infoモデル内のboot()に入れる？
+→boot()を使うなという話、メソッドそのものはOK
 
 以下JS周りは一旦保留、知識が足りなさすぎる
 ①記事delete時ログアウトされるバグの修正
@@ -72,14 +73,25 @@ public/js内に入れて、bladeではasset()で突っ込む
 ・テストの意義
 現在動作確認をブラウザ上で動かして確認しているが、それをエディタ上で実現するのがテストということか
 以前ではいちいち同じ作業（ユーザー登録→削除、記事投稿→削除など）を繰り返していたが、簡略化できるか？
+→ブラウザで動かすものを自動化するのはE2Eテスト(Selenium、Laravel Dusk)、ファンクション単位で動作確認するのがUnitテスト(PHP Unit、Laravel Unit)、基本文法など処理を走らせずに確認するのが静的解析(PHP stan)
+model→controller→viewの順で行う
 
 以下は時間があれば
 
 ・PHP-fixcer
 →インストールはOK、ただしエラー「You must call one of in() or append() methods before iterating over a Finder.」
+→./vendor/bin/php-cs-fixer fix ./ で走った
 
 ・セキュリティについて
 気をつけるべき点→対処する箇所
+スクリプト挿入攻撃、XSS→エスケープ
+CSRF→@csrf
+SQLインジェクション→eloquent使っていればOK?
+セッション固定攻撃
+セッションハイジャック
+→この辺りはLaravelをまともに組んでいれば大げさに意識しなくても良い
+強いて言えば検索周りは注意
+あとphp.iniファイル（立ち上げ時の話）も注意
 
 ・ソートをデフォルトでdescにしたい(Kyslik/column-sortable)
 →ボタンが3つあり、そのうち「閲覧数」のみdescにしたい

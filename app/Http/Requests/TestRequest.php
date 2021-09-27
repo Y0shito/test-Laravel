@@ -6,18 +6,21 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class TestRequest extends FormRequest
 {
-    public function authorize(){
-            return true;
+    public function authorize()
+    {
+        return true;
     }
 
-    public function rules(){
+    public function rules()
+    {
         return [
             'title' => 'required | between:5,30',
             'body' => 'required | between:30,1000'
         ];
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
             'title.required' => 'タイトルを入力してください',
             'title.between' => 'タイトルを5文字以上、30文字以下で入力してください',

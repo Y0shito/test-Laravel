@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\{Article, Info, User};
-use Illuminate\{Http\Request, Support\Facades\Auth};
+use App\Models\Article;
+use App\Models\Info;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {

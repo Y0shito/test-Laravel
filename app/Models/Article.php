@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Enums\PublicStatus;
-use Illuminate\Database\Eloquent\{Model, Factories\HasFactory};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Kyslik\ColumnSortable\Sortable;
 
 class Article extends Model

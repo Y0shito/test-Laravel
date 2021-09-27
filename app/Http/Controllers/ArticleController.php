@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\{Enums\PublicStatus, Http\Requests\TestRequest, Traits\Spaceremoval};
-use App\Models\{Article, Bookmark, Info, User};
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\DB};
-
+use App\Enums\PublicStatus;
+use App\Http\Requests\TestRequest;
+use App\Traits\Spaceremoval;
+use App\Models\Article;
+use App\Models\Bookmark;
+use App\Models\Info;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -49,8 +55,8 @@ class ArticleController extends Controller
 
     public function toPreview(TestRequest $request)
     {
-        $title = ArticleController::spaceRemoval($request->title);
-        $body = ArticleController::spaceRemoval($request->body);
+        $title = Spaceremoval::spaceRemoval($request->title);
+        $body = Spaceremoval::spaceRemoval($request->body);
 
         session(compact('title', 'body'), ['article_id' => $request->article_id]);
 
@@ -83,6 +89,8 @@ class ArticleController extends Controller
         } catch (\Exception $e) { //例外発生時
             // 本来はここに例外時の処理を書く
             DB::rollback(); //適用前に戻す
+            $error = $e->getMessage();
+            dd($error);
         }
     }
 
@@ -107,11 +115,14 @@ class ArticleController extends Controller
         } catch (\Exception $e) {
             // 本来はここに例外時の処理を書く
             DB::rollback();
+            $error = $e->getMessage();
+            dd($error);
         }
     }
 
     // add,draftでcreated_at,updated_atが同時かつ同じ値で記録される
     // 新規投稿時はcreated_at,更新時はupdated_tを処理したい
+    // →以上の2つのメソッドが多重責務になっているので次回作り分ける
 
     public function open(Request $request)
     {
@@ -145,7 +156,7 @@ class ArticleController extends Controller
             foreach ($words as $word) {
                 if (preg_match('/-/', $word) == 0) {
                     $query->where('title', 'like', "%$word%");
-                } else if (preg_match('/-/', $word) == 1) {
+                } elseif (preg_match('/-/', $word) == 1) {
                     $query->where('title', 'not like', '%' . preg_replace('/-/', '', $word) . '%');
                 }
             }

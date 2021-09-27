@@ -48,5 +48,5 @@ Route::post('update_info', 'App\Http\Controllers\InfoController@updateInfo');
 Auth::routes();
 
 //Twitter
-Route::get('login/twitter','App\Http\Controllers\TestController@getAuth');
+Route::get('login/twitter', 'App\Http\Controllers\TestController@getAuth');
 Route::get('login/twitter/callback', 'App\Http\Controllers\TestController@callback');
