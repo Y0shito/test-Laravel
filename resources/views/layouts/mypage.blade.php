@@ -89,7 +89,8 @@
                         <button class="btn btn-primary btn-sm" type="submit" formaction="edit" name="id"
                             value="{{$item->id}}">編集</button>
 
-                        <button class="btn btn-danger btn-sm" type="submit" formaction="delete" name="id"
+                        <button class="btn btn-danger btn-sm" type="submit"
+                            onClick="article_delete(this); return false;" formaction="delete" name="id"
                             value="{{$item->id}}">削除</button>
                     </form>
                 </div>
@@ -185,17 +186,17 @@
                     @foreach($followers as $item)
                     <tr>
                         <td><a href="user/{{$item->id}}">{{$item->name}}</a></td>
-                        <td>
-                            @if (Auth::user()->getFollowers()->where('user_id', Auth::id())->exists())
-                            <button class="btn btn-danger btn-sm" type="submit" formaction="/unfollow" name="id"
-                                value="{{$item->id}}">フォローを外す</button>
-                            @else
-                            <button class="btn btn-outline-primary btn-sm" type="submit" formaction="/follow" name="id"
-                                value="{{$item->id}}">フォロー</button>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
+                <td>
+                    @if (Auth::user()->getFollowers()->where('user_id', Auth::id())->exists())
+                    <button class="btn btn-danger btn-sm" type="submit" formaction="/unfollow" name="id"
+                        value="{{$item->id}}">フォローを外す</button>
+                    @else
+                    <button class="btn btn-outline-primary btn-sm" type="submit" formaction="/follow" name="id"
+                        value="{{$item->id}}">フォロー</button>
+                    @endif
+                </td>
+                </tr>
+                @endforeach
                 </form> --}}
             </tbody>
         </table>
@@ -232,9 +233,11 @@
         <div class="alert alert-danger">
             <form name="user_delete" action="userDelete" method="GET">
                 <button class="btn btn-danger btn-sm" type="submit"
-                    onClick="user_delete(event);return false;">退会する</button>
+                    onClick="user_delete(this); return false;">退会する</button>
             </form>
         </div>
     </div>
 </div>
+
+<script src="{{asset('/js/mypage.js')}}"></script>
 @endsection
