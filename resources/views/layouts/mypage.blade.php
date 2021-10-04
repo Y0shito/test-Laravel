@@ -11,9 +11,9 @@
         <h3>{{Auth::user()->name}}のマイページ</h3>
         <div class="ml-auto">
             <div class="ml-auto d-inline-flex">
-                <form action="mypage" method="post">
+                <form name="logout" action="mypage" method="post">
                     @csrf
-                    <input class="btn btn-outline-danger btn-sm" type="submit" value="ログアウト">
+                    <button class="btn btn-outline-danger btn-sm">ログアウト</button>
                 </form>
             </div>
         </div>
@@ -75,7 +75,7 @@
             <div class="card-header d-inline-flex pb-0">
                 <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
                 <div class="ml-auto d-inline-flex">
-                    <form name="article_options" method="POST">
+                    <form name="articleOptions" method="POST">
                         @csrf
 
                         @if ($item->open == 1)
@@ -90,7 +90,7 @@
                             value="{{$item->id}}">編集</button>
 
                         <button class="btn btn-danger btn-sm" type="submit"
-                            onClick="article_delete(this); return false;" formaction="delete" name="id"
+                            onclick="article_delete(); return false;" formaction="delete" name="id"
                             value="{{$item->id}}">削除</button>
                     </form>
                 </div>
@@ -231,9 +231,9 @@
             </div>
         </form>
         <div class="alert alert-danger">
-            <form name="user_delete" action="userDelete" method="GET">
-                <button class="btn btn-danger btn-sm" type="submit"
-                    onClick="user_delete(this); return false;">退会する</button>
+            <form name="userDelete" action="userDelete" method="GET">
+                <button class="btn btn-danger btn-sm"
+                    onclick="unsubscribe(this); return false;">退会する</button>
             </form>
         </div>
     </div>
