@@ -141,6 +141,12 @@ Laravel/uiは非推奨らしい→breeze使う?
 
 Faker/Factryやってみる
 
+tailwindcss使う？
+
+bladeコンポーネント
+
+適切なgitignore
+
 userpageとmypageの統合
 表示はほぼ一緒で、ログイン中かつ自分自身のページの場合のみ
 記事編集や設定見れるようにする

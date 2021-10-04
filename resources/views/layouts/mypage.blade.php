@@ -11,7 +11,7 @@
         <h3>{{Auth::user()->name}}のマイページ</h3>
         <div class="ml-auto">
             <div class="ml-auto d-inline-flex">
-                <form name="logout" action="mypage" method="post">
+                <form name="logout" onsubmit="userLogout(); return false;" action="mypage" method="post">
                     @csrf
                     <button class="btn btn-outline-danger btn-sm">ログアウト</button>
                 </form>
@@ -89,8 +89,7 @@
                         <button class="btn btn-primary btn-sm" type="submit" formaction="edit" name="id"
                             value="{{$item->id}}">編集</button>
 
-                        <button class="btn btn-danger btn-sm" type="submit"
-                            onclick="article_delete(); return false;" formaction="delete" name="id"
+                        <button class="btn btn-danger btn-sm" formaction="delete" name="id"
                             value="{{$item->id}}">削除</button>
                     </form>
                 </div>
@@ -231,9 +230,8 @@
             </div>
         </form>
         <div class="alert alert-danger">
-            <form name="userDelete" action="userDelete" method="GET">
-                <button class="btn btn-danger btn-sm"
-                    onclick="unsubscribe(this); return false;">退会する</button>
+            <form name="userDelete" action="userDelete" onsubmit="unsubscribe(); return false;" method="GET">
+                <button class="btn btn-danger btn-sm">退会する</button>
             </form>
         </div>
     </div>

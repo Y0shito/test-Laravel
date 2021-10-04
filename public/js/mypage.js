@@ -1,6 +1,14 @@
 'use strict';
 
-// const article_delete = () => {
+const userLogout = () => {
+    if (window.confirm('ログアウトしますか？')) {
+        document.logout.submit();
+    } else {
+        return false;
+    }
+}
+
+// const articleDelete = () => {
 //     if (window.confirm('本当に削除しますか？')) {
 //         document.articleOptions.submit();
 //     } else {
