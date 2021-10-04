@@ -42,9 +42,8 @@ class TestController extends Controller
 
     public function userDelete()
     {
-        // User::destroy(Auth::id());
-        // return redirect('/index');
-        return redirect('/mypage');
+        User::destroy(Auth::id());
+        return redirect('/index');
     }
 
     public function mypage()

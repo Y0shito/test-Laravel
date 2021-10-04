@@ -69,15 +69,14 @@
     {{-- ここから執筆記事 --}}
     <div class="tab-pane fade show active" id="pills-articles" role="tabpanel">
         <h3>公開中の記事：{{count($items)}}件</h3>
+        <form name="articleOptions" method="POST">
+            @csrf
 
-        @foreach($items as $item)
-        <div class="card my-3">
-            <div class="card-header d-inline-flex pb-0">
-                <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
-                <div class="ml-auto d-inline-flex">
-                    <form name="articleOptions" method="POST">
-                        @csrf
-
+            @foreach($items as $item)
+            <div class="card my-3">
+                <div class="card-header d-inline-flex pb-0">
+                    <h3><a href="article/id/{{$item->id}}">{{$item->title}}</a></h3>
+                    <div class="ml-auto d-inline-flex">
                         @if ($item->open == 1)
                         <button class="btn btn-secondary btn-sm" type="submit" formaction="close" name="id"
                             value="{{$item->id}}">非公開にする</button>
@@ -89,36 +88,34 @@
                         <button class="btn btn-primary btn-sm" type="submit" formaction="edit" name="id"
                             value="{{$item->id}}">編集</button>
 
-                        <button class="btn btn-danger btn-sm" formaction="delete" name="id"
-                            value="{{$item->id}}">削除</button>
-                    </form>
+                        <button class="btn btn-danger btn-sm"
+                            formaction="delete" name="id" value="{{$item->id}}">削除</button>
+                    </div>
                 </div>
-            </div>
 
-            <div class="card-body">
-                <p class="card-text">{{mb_strimwidth($item->body, 0, 450, '...')}}</p>
-            </div>
+                <div class="card-body">
+                    <p class="card-text">{{mb_strimwidth($item->body, 0, 450, '...')}}</p>
+                </div>
 
-            <div class="card-footer">
-                <p class="card-text">
-                    閲覧数：{{$item->view}}&nbsp;
+                <div class="card-footer">
+                    <p class="card-text">
+                        閲覧数：{{$item->view}}&nbsp;
 
-                    {{ isset($item->updated_at)
+                        {{ isset($item->updated_at)
                     ? "更新日：{$item->updated_at->format('Y年m月d日')}"
                     : "作成日：{$item->created_at->format('Y年m月d日')}"
                     }}
 
-                    ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
-                    カテゴリ：{{$item->category}}
-                </p>
+                        ブックマーク数：{{$item->bookmarks->count()}}&nbsp;
+                        カテゴリ：{{$item->category}}
+                    </p>
+                </div>
             </div>
-        </div>
-        @endforeach
-
+            @endforeach
+        </form>
         <div class="d-flex justify-content-center">
             {{$items->links()}}
         </div>
-
     </div>
 
     {{-- ここからブックマークした記事 --}}
