@@ -18,27 +18,28 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav">
-                    @if(Auth::check())
-                    <a class="nav-item nav-link" href="/create">記事作成</a>
-                    <a class="nav-item nav-link" href="/mypage">マイページ</a>
+                    @if (Auth::check())
+                        <a class="nav-item nav-link" href="/create">記事作成</a>
+                        <a class="nav-item nav-link" href="/mypage">マイページ</a>
                     @else
-                    <a class="nav-item nav-link" href="/auth">ログイン</a>
-                    <a class="nav-item nav-link" href="/register">登録</a>
+                        <a class="nav-item nav-link" href="/auth">ログイン</a>
+                        <a class="nav-item nav-link" href="/register">登録</a>
                     @endif
                 </div>
             </div>
 
             <form class="form-inline" action="result" method="get">
                 @if (isset($word))
-                <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" value="{{$word}}"
-                    aria-label="Search" name="search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" value="{{ $word }}"
+                        aria-label="Search" name="search">
                 @else
-                <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" aria-label="Search" name="search">
+                    <input class="form-control mr-sm-2" type="text" placeholder="記事を検索" aria-label="Search"
+                        name="search">
                 @endif
                 <select name="category" class="custom-select">
                     <option value="">カテゴリ絞り込み</option>
                     @foreach (config('const.category') as $key => $value)
-                    <option value="{{$key}}">{{$value}}</option>
+                        <option value="{{ $key }}">{{ $value }}</option>
                     @endforeach
                 </select>
                 <button class="btn btn-success my-2 my-sm-0" type="submit">検索</button>
