@@ -8,13 +8,13 @@ const userLogout = () => {
     }
 }
 
-// const articleDelete = () => {
-//     if (window.confirm('本当に削除しますか？')) {
-//         document.articleOptions.submit();
-//     } else {
-//         return false;
-//     }
-// }
+const articleDelete = () => {
+    if (window.confirm('本当に削除しますか？')) {
+        document.articleOptions.submit();
+    } else {
+        return false;
+    }
+}
 
 const unsubscribe = () => {
     if (window.confirm('本当に退会しますか？')) {

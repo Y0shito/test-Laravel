@@ -9,7 +9,7 @@
         記事はまだ投稿されていません。記事内容をご確認ください
     </div>
 
-    <form method="POST">
+    <form onsubmit="submitted=true; this.querySelectorAll('button')[1].disabled=true;" method="POST">
         @csrf
         <div class="d-flex">
             <div>
@@ -42,4 +42,5 @@
 
     </form>
     </div>
+    <script src="{{ asset('/js/preview.js') }}"></script>
 @endsection

@@ -97,3 +97,6 @@ SQLインジェクション→eloquent使っていればOK?
 →ボタンが3つあり、そのうち「閲覧数」のみdescにしたい
 →Controller内で...->sortable(['view' => 'desc'])->...;
 →ページ開いてデフォルトで閲覧数がdescに並んでいるのであって、「閲覧数」ボタンの働きはascのまま
+
+そもそもpostとgetの使い分けは？
+aとbuttonの使い分け
