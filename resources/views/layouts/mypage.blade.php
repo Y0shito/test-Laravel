@@ -88,9 +88,11 @@
 
                                 <button class="btn btn-primary btn-sm" type="submit" formaction="edit" name="id"
                                     value="{{ $item->id }}">編集</button>
-
-                                <button class="btn btn-danger btn-sm" onclick="articleDelete(); return false;"
-                                    formaction="delete" name="id" value="{{ $item->id }}">削除</button>
+                            </form>
+                            <form name="articleDelete" action="delete" method="POST"
+                                onsubmit="articleDelete(); return false;">
+                                @csrf
+                                <button class="btn btn-danger btn-sm" type="submit" name="id" value="{{ $item->id }}">削除</button>
                             </form>
                         </div>
                     </div>
